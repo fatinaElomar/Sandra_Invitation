@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Jhony &amp; Sandra – Wedding Invitation</title>
+  <meta name="description" content="You are cordially invited to the wedding of Jhony &amp; Sandra — Saturday, October 10th, 2025." />
+  <!-- Google Sheets submission status banner (hidden by default) -->
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="apple-touch-icon" href="favicon.svg" />
+
+  <!-- Open Graph / WhatsApp / Facebook Link Preview -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Jhony &amp; Sandra – Wedding Invitation" />
+  <meta property="og:description" content="Saturday, October 10th · We cordially invite you to celebrate our wedding day with us." />
+  <meta property="og:image" content="preview.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="675" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Jhony &amp; Sandra – Wedding Invitation" />
+  <meta name="twitter:description" content="Saturday, October 10th · We cordially invite you to celebrate our wedding day with us." />
+  <meta name="twitter:image" content="preview.jpg" />
+
+  <!-- Fonts: Great Vibes (script names), Cinzel (small caps), Lato (body/sans) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Cinzel:wght@400;600&family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- Full-screen animated background canvas -->
+<canvas id="bgCanvas" aria-hidden="true"></canvas>
+
+<!-- ═══════════════════════════════════════════════════════
+     PAGE WRAPPER — scrollable canvas
+══════════════════════════════════════════════════════════ -->
+<div class="page-canvas">
+
+  <!-- ╔══════════════════════════════╗
+       ║   CARD 1 — INVITATION        ║
+       ╚══════════════════════════════╝ -->
+  <article class="invitation-card" id="invitation">
+    <!-- Outer gold border -->
+    <div class="card-border">
+      <!-- Inner thinner border -->
+      <div class="card-border-inner">
+        <div class="card-content">
+
+          <!-- Arabic text -->
+          <p class="arabic-blessing" dir="rtl">
+            بكل حب، ندعوكم لمشاركتنا أجمل لحظات حياتنا<br>والاحتفال معنا بيوم زفافنا
+          </p>
+
+          <!-- Groom name -->
+          <h1 class="name-script groom">Jhony</h1>
+
+          <!-- AND divider -->
+          <div class="name-divider">
+            <span class="nd-line"></span>
+            <span class="nd-text">AND</span>
+            <span class="nd-line"></span>
+          </div>
+
+          <!-- Bride name -->
+          <h1 class="name-script bride">Sandra</h1>
+
+          <!-- Date row -->
+          <div class="date-row">
+            <div class="date-row-line top"></div>
+            <div class="date-cells">
+              <span class="date-label">SATURDAY</span>
+              <span class="date-day">10</span>
+              <span class="date-label">OCTOBER</span>
+            </div>
+            <div class="date-row-line bottom"></div>
+          </div>
+
+          <!-- Events -->
+          <div class="events-block">
+            <p class="event-heading">Holy Ceremony</p>
+            <p class="event-venue">Edbel Church &nbsp;·&nbsp; 5:00 PM</p>
+          </div>
+
+          <div class="events-block">
+            <p class="event-heading">Wedding Reception</p>
+            <p class="event-venue">Glamour Garden &nbsp;·&nbsp; 7:00 PM</p>
+          </div>
+
+          <!-- With Love -->
+          <div class="with-love-block">
+            <p class="with-love-upper">With Love</p>
+            <p class="with-love-names">Jhony &amp; Sandra</p>
+          </div>
+
+          <!-- Heart ornament + Whish Money -->
+          <div class="bottom-row">
+            <div class="heart-ornament">
+              <span class="ho-line"></span>
+              <span class="ho-heart">♥</span>
+              <span class="ho-line"></span>
+            </div>
+            <div class="whish-block">
+              <p class="whish-label">Whish Money</p>
+              <p class="whish-number">76 148 953</p>
+            </div>
+          </div>
+
+          <!-- Countdown (bonus, below card content) -->
+          <div class="countdown-wrap">
+            <p class="countdown-label">COUNTING DOWN TO OUR BIG DAY</p>
+            <div class="countdown" id="countdown">
+              <div class="cd-cell"><span id="cd-days">00</span><small>Days</small></div>
+              <div class="cd-cell"><span id="cd-hours">00</span><small>Hours</small></div>
+              <div class="cd-cell"><span id="cd-mins">00</span><small>Minutes</small></div>
+              <div class="cd-cell"><span id="cd-secs">00</span><small>Seconds</small></div>
+            </div>
+          </div>
+
+          <a href="#rsvp" class="rsvp-cta" id="rsvp-cta">RSVP Now ♥</a>
+
+        </div><!-- /card-content -->
+      </div><!-- /card-border-inner -->
+    </div><!-- /card-border -->
+  </article>
+
+
+  <!-- ╔══════════════════════════════╗
+       ║   CARD 2 — SAVE THE DATE     ║
+       ╚══════════════════════════════╝ -->
+  <article class="std-card" id="save-the-date">
+
+    <!-- JS monogram -->
+    <div class="monogram">
+      <div class="mono-letters">
+        <span class="mono-j">J</span><span class="mono-s">S</span>
+      </div>
+      <p class="mono-sub">JHONY &amp; SANDRA</p>
+    </div>
+
+    <!-- "October" script -->
+    <h2 class="std-month">October</h2>
+
+    <!-- Calendar grid -->
+    <div class="cal-grid" role="grid" aria-label="October 2025">
+      <!-- Day headers -->
+      <div class="cal-hd">S</div><div class="cal-hd">M</div>
+      <div class="cal-hd">T</div><div class="cal-hd">W</div>
+      <div class="cal-hd">T</div><div class="cal-hd">F</div>
+      <div class="cal-hd">S</div>
+      <!-- Oct 2025: starts Wednesday (index 3) -->
+      <div class="cal-empty"></div>
+      <div class="cal-empty"></div>
+      <div class="cal-empty"></div>
+      <div class="cal-empty"></div>
+      <div class="cal-d">1</div><div class="cal-d">2</div><div class="cal-d">3</div>
+      <div class="cal-d">4</div><div class="cal-d">5</div><div class="cal-d">6</div>
+      <div class="cal-d">7</div><div class="cal-d">8</div><div class="cal-d">9</div>
+      <div class="cal-d wedding" aria-label="Wedding day, October 10">
+        <span class="cal-heart-ring">&#9829;</span>
+        <span class="cal-num">10</span>
+      </div>
+      <div class="cal-d">11</div><div class="cal-d">12</div><div class="cal-d">13</div>
+      <div class="cal-d">14</div><div class="cal-d">15</div><div class="cal-d">16</div>
+      <div class="cal-d">17</div><div class="cal-d">18</div><div class="cal-d">19</div>
+      <div class="cal-d">20</div><div class="cal-d">21</div><div class="cal-d">22</div>
+      <div class="cal-d">23</div><div class="cal-d">24</div><div class="cal-d">25</div>
+      <div class="cal-d">26</div><div class="cal-d">27</div><div class="cal-d">28</div>
+      <div class="cal-d">29</div><div class="cal-d">30</div><div class="cal-d">31</div>
+    </div>
+
+    <!-- Save the date script -->
+    <p class="std-text">
+      <span class="std-swash std-left">&#x7e;&#x7e;</span>
+      <span class="std-save">save</span>
+      <span class="std-the"><sup>the</sup></span>
+      <span class="std-date">date</span>
+      <span class="std-swash std-right">&#x7e;&#x7e;</span>
+    </p>
+
+  </article>
+
+
+  <!-- ╔══════════════════════════════╗
+       ║   RSVP REGISTRATION SECTION  ║
+       ╚══════════════════════════════╝ -->
+  <section class="rsvp-section" id="rsvp">
+    <div class="rsvp-wrapper">
+
+      <!-- Section heading -->
+      <div class="rsvp-heading">
+        <div class="rsvp-divider"><span></span><span class="rsvp-icon">♥</span><span></span></div>
+        <h2 class="rsvp-title">R · S · V · P</h2>
+        <p class="rsvp-subtitle">Kindly reply by September 25<sup>th</sup>, 2025</p>
+      </div>
+
+      <!-- Form -->
+      <form id="rsvpForm" class="rsvp-form" novalidate autocomplete="off">
+
+        <div class="f-row">
+          <div class="f-group">
+            <label for="fullName">Full Name <span class="req">*</span></label>
+            <input type="text"  id="fullName"   name="fullName"   placeholder="Your full name"  required />
+            <span class="f-err" id="err-fullName"></span>
+          </div>
+          <div class="f-group">
+            <label for="phone">Phone Number <span class="req">*</span></label>
+            <input type="tel"   id="phone"       name="phone"       placeholder="+961 XX XXX XXX" required />
+            <span class="f-err" id="err-phone"></span>
+          </div>
+        </div>
+
+        <div class="f-row">
+          <div class="f-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email"       name="email"       placeholder="your@email.com" />
+            <span class="f-err" id="err-email"></span>
+          </div>
+          <div class="f-group">
+            <label for="attendance">Attending? <span class="req">*</span></label>
+            <div class="select-wrap">
+              <select id="attendance" name="attendance" required>
+                <option value="" disabled selected>Select…</option>
+                <option value="Yes – Ceremony &amp; Reception">Yes – Ceremony &amp; Reception</option>
+                <option value="Yes – Ceremony only">Yes – Ceremony Only</option>
+                <option value="Yes – Reception only">Yes – Reception Only</option>
+                <option value="No – Unable to attend">No – Unable to Attend</option>
+              </select>
+              <span class="select-arrow">▾</span>
+            </div>
+            <span class="f-err" id="err-attendance"></span>
+          </div>
+        </div>
+
+        <div class="f-row">
+          <div class="f-group">
+            <label for="guests">Number of Guests <span class="req">*</span></label>
+            <input type="number" id="guests" name="guests" placeholder="1" min="1" max="20" required />
+            <span class="f-err" id="err-guests"></span>
+          </div>
+          <div class="f-group"><!-- spacer --></div>
+        </div>
+
+        <div class="f-group f-full">
+          <label for="message">Warm Wishes to the Couple</label>
+          <textarea id="message" name="message" rows="4" placeholder="Write your heartfelt message here…"></textarea>
+        </div>
+
+        <!-- Submission status banner -->
+        <div class="submit-status" id="submitStatus" style="display:none;"></div>
+
+        <div class="f-actions">
+          <button type="submit" class="btn-primary" id="submitBtn">
+            Send RSVP &nbsp;♥
+          </button>
+        </div>
+
+      </form>
+
+      <!-- Success state -->
+      <div class="success-panel" id="successCard" style="display:none;" role="alert">
+        <div class="success-heart">♥</div>
+        <h3 class="success-title">Thank You!</h3>
+        <p class="success-msg" id="successMsg">Your RSVP has been recorded. We can't wait to celebrate with you!</p>
+      </div>
+
+      <!-- Response counter -->
+      <p class="rsvp-counter" id="guestCounter">
+        <span id="rsvpCount">0</span> RSVP responses received
+      </p>
+
+    </div>
+  </section>
+
+
+  <!-- ╔══════════════════════════════╗
+       ║   FOOTER                     ║
+       ╚══════════════════════════════╝ -->
+  <footer class="site-footer">
+    <div class="footer-ornament"><span></span><span class="fo-heart">♥</span><span></span></div>
+    <p class="footer-names">Jhony &amp; Sandra</p>
+    <p class="footer-date">Saturday · October 10<sup>th</sup> · 2025</p>
+    <p class="footer-love">Made with ♥</p>
+  </footer>
+
+</div><!-- /page-canvas -->
+
+<script src="app.js"></script>
+</body>
+</html>

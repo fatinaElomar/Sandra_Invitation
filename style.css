@@ -1,0 +1,849 @@
+/* ══════════════════════════════════════════════════════════
+   JHONY & SANDRA — Wedding Invitation CSS
+   Pixel-perfect match to the reference images
+   ══════════════════════════════════════════════════════════ */
+
+/* ── Design tokens ───────────────────────────────────────── */
+:root {
+  --gold:          #c9a84c;
+  --gold-light:    #d4b86a;
+  --gold-lighter:  #e8d08f;
+  --gold-dim:      rgba(201,168,76,0.40);
+  --gold-glow:     rgba(201,168,76,0.15);
+  --ink:           #111111;      /* card background */
+  --ink-deeper:    #0b0b0b;      /* page background */
+  --text-white:    #ffffff;
+  --text-cream:    #f2ead8;
+  --text-muted:    #888888;
+  --border-radius: 14px;
+  --card-shadow:   0 30px 80px rgba(0,0,0,0.85);
+  --t:             0.3s cubic-bezier(.4,0,.2,1);
+
+  /* Typography */
+  --f-script: 'Great Vibes', cursive;
+  --f-serif:  'Playfair Display', 'Georgia', serif;
+  --f-caps:   'Cinzel', 'Trajan Pro', serif;
+  --f-body:   'Lato', sans-serif;
+}
+
+/* ── Reset ───────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: var(--f-body);
+  background: var(--ink-deeper);
+  color: var(--text-white);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ── Page canvas ─────────────────────────────────────────── */
+.page-canvas {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+  position: relative;
+  z-index: 0;
+}
+
+/* ── Background animation canvas ─────────────────────────── */
+#bgCanvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: -1;          /* always behind everything */
+  display: block;
+}
+
+
+/* ════════════════════════════════════════════════════════════
+   CARD 1 — INVITATION
+   Matches image 1: black card, gold double-border, all content
+════════════════════════════════════════════════════════════ */
+.invitation-card {
+  width: 100%;
+  max-width: 540px;
+  margin: 40px auto;
+  padding: 12px;                        /* outer margin to border */
+  background: var(--ink);
+  border: 2px solid var(--gold);        /* outer gold border */
+  position: relative;
+  box-shadow: var(--card-shadow), 0 0 60px rgba(201,168,76,0.08);
+  animation: fadeInUp 1s ease both;
+}
+
+/* Inner thinner border */
+.card-border {
+  border: 1.5px solid var(--gold);
+  padding: 10px;
+}
+.card-border-inner {
+  border: 0.5px solid rgba(201,168,76,0.35);
+  padding: clamp(24px, 5vw, 40px) clamp(20px, 5vw, 44px);
+}
+
+/* All content inside the card */
+.card-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  text-align: center;
+}
+
+/* ── Arabic blessing ─────────────────────────────────────── */
+.arabic-blessing {
+  font-family: var(--f-serif);
+  font-size: clamp(0.8rem, 2.4vw, 0.95rem);
+  font-weight: 400;
+  color: var(--text-white);
+  direction: rtl;
+  line-height: 1.9;
+  margin-bottom: 24px;
+  letter-spacing: 0.01em;
+}
+
+/* ── Script names ────────────────────────────────────────── */
+.name-script {
+  font-family: var(--f-script);
+  font-weight: 400;
+  color: var(--text-white);
+  line-height: 1;
+  letter-spacing: 0.01em;
+}
+.name-script.groom {
+  font-size: clamp(3.2rem, 9vw, 5.4rem);
+  margin-bottom: 4px;
+}
+.name-script.bride {
+  font-size: clamp(4rem, 11vw, 6.8rem);
+  margin-top: 2px;
+  margin-bottom: 20px;
+}
+
+/* ── AND divider ─────────────────────────────────────────── */
+.name-divider {
+  display: flex;
+  align-items: center;
+  width: 80%;
+  gap: 14px;
+  margin: 4px 0 4px;
+}
+.nd-line {
+  flex: 1;
+  height: 1px;
+  background: var(--gold);
+}
+.nd-text {
+  font-family: var(--f-caps);
+  font-size: 0.65rem;
+  letter-spacing: 0.35em;
+  color: var(--gold-light);
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+/* ── Date row ────────────────────────────────────────────── */
+.date-row {
+  width: 100%;
+  margin: 18px 0 22px;
+}
+.date-row-line {
+  height: 1px;
+  background: var(--gold);
+  width: 100%;
+}
+.date-cells {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(12px, 4vw, 28px);
+  padding: 10px 0;
+}
+.date-label {
+  font-family: var(--f-caps);
+  font-size: clamp(0.55rem, 1.5vw, 0.7rem);
+  letter-spacing: 0.2em;
+  color: var(--text-white);
+  font-weight: 400;
+}
+.date-day {
+  font-family: var(--f-serif);
+  font-size: clamp(2.4rem, 7vw, 3.8rem);
+  font-weight: 400;
+  color: var(--text-white);
+  line-height: 1;
+}
+
+/* ── Events block ────────────────────────────────────────── */
+.events-block {
+  margin-bottom: 14px;
+}
+.event-heading {
+  font-family: var(--f-serif);
+  font-style: italic;
+  font-size: clamp(0.85rem, 2.5vw, 1.05rem);
+  color: var(--gold-light);
+  letter-spacing: 0.05em;
+  margin-bottom: 3px;
+}
+.event-venue {
+  font-family: var(--f-caps);
+  font-size: clamp(0.6rem, 1.8vw, 0.75rem);
+  color: var(--text-white);
+  letter-spacing: 0.08em;
+  font-weight: 400;
+}
+
+/* ── With Love block ─────────────────────────────────────── */
+.with-love-block {
+  margin: 16px 0 4px;
+}
+.with-love-upper {
+  font-family: var(--f-caps);
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  color: var(--text-white);
+  margin-bottom: 2px;
+}
+.with-love-names {
+  font-family: var(--f-caps);
+  font-size: clamp(0.7rem, 2vw, 0.85rem);
+  letter-spacing: 0.15em;
+  color: var(--text-white);
+}
+
+/* ── Bottom row: heart ornament + Whish Money ────────────── */
+.bottom-row {
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  margin-top: 12px;
+  position: relative;
+  min-height: 46px;
+}
+.heart-ornament {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: 1;
+  justify-content: center;
+}
+.ho-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold));
+  max-width: 80px;
+}
+.ho-line:last-child {
+  background: linear-gradient(90deg, var(--gold), transparent);
+}
+.ho-heart {
+  color: var(--gold);
+  font-size: 0.9rem;
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%,100% { transform: scale(1); opacity: 1; }
+  50%      { transform: scale(1.25); opacity: 0.8; }
+}
+
+.whish-block {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  text-align: right;
+}
+.whish-label {
+  font-family: var(--f-caps);
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  color: var(--text-white);
+  line-height: 1.6;
+}
+.whish-number {
+  font-family: var(--f-caps);
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  color: var(--text-white);
+}
+
+/* ── Countdown (below card ornament) ─────────────────────── */
+.countdown-wrap {
+  width: 100%;
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid var(--gold-dim);
+}
+.countdown-label {
+  font-family: var(--f-caps);
+  font-size: 0.55rem;
+  letter-spacing: 0.28em;
+  color: var(--gold-light);
+  margin-bottom: 14px;
+}
+.countdown {
+  display: flex;
+  justify-content: center;
+  gap: clamp(8px, 3vw, 18px);
+  flex-wrap: wrap;
+}
+.cd-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(201,168,76,0.06);
+  border: 1px solid var(--gold-dim);
+  border-radius: 8px;
+  padding: 10px 14px;
+  min-width: 62px;
+}
+.cd-cell span {
+  font-family: var(--f-serif);
+  font-size: 1.8rem;
+  font-weight: 400;
+  color: var(--gold-lighter);
+  line-height: 1;
+}
+.cd-cell small {
+  font-family: var(--f-body);
+  font-size: 0.55rem;
+  letter-spacing: 0.18em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+/* ── RSVP CTA button ─────────────────────────────────────── */
+.rsvp-cta {
+  display: inline-block;
+  margin-top: 24px;
+  padding: 13px 40px;
+  background: linear-gradient(135deg, #8c6c28, var(--gold), #e8d08f, var(--gold));
+  background-size: 200% 200%;
+  color: #1a1200;
+  font-family: var(--f-caps);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-decoration: none;
+  border-radius: 50px;
+  box-shadow: 0 8px 28px rgba(201,168,76,0.38);
+  transition: var(--t);
+  animation: shimmer 3s ease-in-out infinite;
+}
+.rsvp-cta:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 40px rgba(201,168,76,0.55);
+}
+@keyframes shimmer {
+  0%,100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
+}
+
+
+/* ════════════════════════════════════════════════════════════
+   CARD 2 — SAVE THE DATE (calendar)
+   Matches image 2: dark card, gold "JS" monogram, calendar, script
+════════════════════════════════════════════════════════════ */
+.std-card {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto 40px;
+  padding: clamp(32px, 6vw, 52px) clamp(20px, 5vw, 48px);
+  background: var(--ink);
+  border: 2px solid var(--gold-dim);
+  box-shadow: var(--card-shadow);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  text-align: center;
+  animation: fadeInUp 1s 0.2s ease both;
+}
+
+/* ── Monogram JS ─────────────────────────────────────────── */
+.monogram {
+  margin-bottom: 28px;
+}
+.mono-letters {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  line-height: 1;
+}
+.mono-j, .mono-s {
+  font-family: var(--f-serif);
+  font-weight: 700;
+  color: var(--gold);
+  line-height: 1;
+}
+.mono-j {
+  font-size: clamp(3rem, 8vw, 4.8rem);
+  transform: translateX(6px) translateY(6px);
+  z-index: 1;
+  position: relative;
+}
+.mono-s {
+  font-size: clamp(3.6rem, 9vw, 5.8rem);
+  transform: translateX(-4px);
+}
+.mono-sub {
+  font-family: var(--f-caps);
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  color: var(--gold-light);
+  margin-top: 4px;
+}
+
+/* ── October script ──────────────────────────────────────── */
+.std-month {
+  font-family: var(--f-script);
+  font-size: clamp(3rem, 8vw, 5rem);
+  color: var(--gold);
+  line-height: 1.1;
+  margin-bottom: 24px;
+  text-shadow: 0 0 30px rgba(201,168,76,0.35);
+}
+
+/* ── Calendar grid ───────────────────────────────────────── */
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px 4px;
+  width: 100%;
+  max-width: 350px;
+  margin-bottom: 32px;
+}
+.cal-hd {
+  font-family: var(--f-caps);
+  font-size: clamp(0.6rem, 1.8vw, 0.7rem);
+  color: var(--gold);
+  letter-spacing: 0.04em;
+  padding: 6px 2px;
+  text-align: center;
+}
+.cal-d {
+  font-family: var(--f-body);
+  font-size: clamp(0.75rem, 2vw, 0.9rem);
+  color: var(--gold-light);
+  padding: 7px 2px;
+  text-align: center;
+  border-radius: 50%;
+  transition: var(--t);
+  position: relative;
+}
+.cal-empty { padding: 7px 2px; }
+
+/* Wedding day highlight — heart surrounds the number */
+.cal-d.wedding {
+  position: relative;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  cursor: default;
+}
+
+/* Large heart ring behind the number */
+.cal-heart-ring {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3.4rem;
+  line-height: 1;
+  /* Outline-only heart: dark fill so the number shows through */
+  color: transparent;
+  -webkit-text-stroke: 1.8px var(--gold);
+  text-stroke: 1.8px var(--gold);
+  filter: drop-shadow(0 0 6px rgba(201,168,76,0.45));
+  animation: ringPulse 2.5s ease-in-out infinite;
+  user-select: none;
+}
+
+/* The number itself on top */
+.cal-num {
+  position: relative;
+  z-index: 2;
+  font-family: var(--f-body);
+  font-size: clamp(0.75rem, 2vw, 0.88rem);
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 0;
+  line-height: 1;
+}
+@keyframes ringPulse {
+  0%,100% { box-shadow: 0 0 0 0 rgba(201,168,76,0.5); }
+  50%      { box-shadow: 0 0 0 8px rgba(201,168,76,0); }
+}
+
+/* ── "save the date" script ──────────────────────────────── */
+.std-text {
+  font-family: var(--f-script);
+  font-size: clamp(2rem, 6vw, 3.2rem);
+  color: var(--gold);
+  letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  text-shadow: 0 0 20px rgba(201,168,76,0.25);
+}
+.std-swash {
+  font-size: 1.2em;
+  opacity: 0.5;
+  letter-spacing: -0.05em;
+}
+.std-the {
+  font-family: var(--f-body);
+  font-size: 0.55rem;
+  letter-spacing: 0.1em;
+  color: var(--gold-light);
+  align-self: flex-start;
+  padding-top: 6px;
+}
+
+
+/* ════════════════════════════════════════════════════════════
+   RSVP SECTION
+════════════════════════════════════════════════════════════ */
+.rsvp-section {
+  width: 100%;
+  background: linear-gradient(180deg, #0e0e0e 0%, #111 100%);
+  padding: 60px 16px 80px;
+}
+.rsvp-wrapper {
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+}
+
+/* ── Section heading ─────────────────────────────────────── */
+.rsvp-heading { text-align: center; width: 100%; }
+.rsvp-divider {
+  display: flex; align-items: center; gap: 16px;
+  margin-bottom: 16px;
+}
+.rsvp-divider span:not(.rsvp-icon) {
+  flex: 1; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.rsvp-icon { color: var(--gold); font-size: 1.1rem; animation: pulse 2s ease-in-out infinite; }
+
+.rsvp-title {
+  font-family: var(--f-caps);
+  font-size: clamp(1.5rem, 4vw, 2.2rem);
+  font-weight: 400;
+  letter-spacing: 0.45em;
+  color: var(--text-white);
+  margin-bottom: 8px;
+}
+.rsvp-subtitle {
+  font-family: var(--f-body);
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+}
+
+/* ── Form card ───────────────────────────────────────────── */
+.rsvp-form {
+  width: 100%;
+  background: #1a1a1a;
+  border: 1px solid var(--gold-dim);
+  border-radius: var(--border-radius);
+  padding: clamp(24px, 5vw, 44px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.55);
+}
+
+.f-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+@media (max-width: 540px) { .f-row { grid-template-columns: 1fr; } }
+
+.f-group {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.f-group.f-full { margin-bottom: 20px; }
+
+label {
+  font-family: var(--f-caps);
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  color: var(--gold-light);
+  text-transform: uppercase;
+}
+.req { color: var(--gold); }
+
+/* Inputs */
+input[type="text"],
+input[type="tel"],
+input[type="email"],
+input[type="number"],
+textarea {
+  width: 100%;
+  background: #242424;
+  border: 1px solid var(--gold-dim);
+  border-radius: 8px;
+  padding: 11px 15px;
+  color: var(--text-white);
+  font-family: var(--f-body);
+  font-size: 0.9rem;
+  outline: none;
+  transition: var(--t);
+  appearance: none;
+}
+input::placeholder, textarea::placeholder { color: var(--text-muted); font-size: 0.85rem; }
+input:focus, textarea:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(201,168,76,0.12);
+  background: #2a2a2a;
+}
+input.invalid, select.invalid, textarea.invalid {
+  border-color: #d9534f;
+  box-shadow: 0 0 0 3px rgba(217,83,79,0.15);
+}
+textarea { resize: vertical; min-height: 96px; }
+
+/* Select wrapper */
+.select-wrap { position: relative; }
+.select-wrap select {
+  width: 100%;
+  background: #242424;
+  border: 1px solid var(--gold-dim);
+  border-radius: 8px;
+  padding: 11px 36px 11px 15px;
+  color: var(--text-white);
+  font-family: var(--f-body);
+  font-size: 0.9rem;
+  outline: none;
+  appearance: none;
+  cursor: pointer;
+  transition: var(--t);
+}
+.select-wrap select:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(201,168,76,0.12);
+  background: #2a2a2a;
+}
+.select-wrap select option { background: #1a1a1a; color: var(--text-white); }
+.select-arrow {
+  position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+  color: var(--gold); pointer-events: none; font-size: 0.9rem;
+}
+
+.f-err {
+  font-size: 0.7rem; color: #e07070;
+  min-height: 14px; display: block;
+}
+
+/* ── Form actions ────────────────────────────────────────── */
+.f-actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 28px;
+}
+
+.btn-primary, .btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 13px 36px;
+  border-radius: 50px;
+  font-family: var(--f-caps);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  cursor: pointer;
+  border: none;
+  transition: var(--t);
+  text-transform: uppercase;
+}
+.btn-primary {
+  background: linear-gradient(135deg, #8c6c28, var(--gold), #e8d08f);
+  color: #160f00;
+  box-shadow: 0 8px 24px rgba(201,168,76,0.38);
+}
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 14px 36px rgba(201,168,76,0.5); }
+.btn-outline {
+  background: transparent;
+  border: 1.5px solid var(--gold);
+  color: var(--gold);
+}
+.btn-outline:hover {
+  background: rgba(201,168,76,0.08);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(201,168,76,0.18);
+}
+
+/* ── Success panel ───────────────────────────────────────── */
+.success-panel {
+  width: 100%;
+  background: #1a1a1a;
+  border: 1px solid var(--gold);
+  border-radius: var(--border-radius);
+  padding: 50px 32px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.55);
+  animation: fadeInUp 0.6s ease both;
+}
+.success-heart {
+  font-size: 3rem;
+  color: var(--gold);
+  animation: pulse 1.6s ease-in-out infinite;
+  margin-bottom: 16px;
+}
+.success-title {
+  font-family: var(--f-script);
+  font-size: 3rem;
+  color: var(--text-white);
+  margin-bottom: 10px;
+}
+.success-msg {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 28px;
+  line-height: 1.7;
+}
+
+/* ── Submit status banner ────────────────────────────────── */
+.submit-status {
+  margin-top: 16px;
+  padding: 12px 18px;
+  border-radius: 8px;
+  font-family: var(--f-caps);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-align: center;
+}
+.submit-status.sending {
+  background: rgba(201,168,76,0.10);
+  border: 1px solid var(--gold-dim);
+  color: var(--gold-light);
+}
+.submit-status.error {
+  background: rgba(217,83,79,0.12);
+  border: 1px solid rgba(217,83,79,0.5);
+  color: #e07070;
+}
+
+/* ── RSVP counter ────────────────────────────────────────── */
+.rsvp-counter {
+  font-family: var(--f-caps);
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  color: var(--text-muted);
+  text-align: center;
+}
+.rsvp-counter #rsvpCount {
+  color: var(--gold-light);
+  font-size: 1.1em;
+  font-weight: 700;
+}
+
+
+/* ════════════════════════════════════════════════════════════
+   FOOTER
+════════════════════════════════════════════════════════════ */
+.site-footer {
+  width: 100%;
+  background: #080808;
+  padding: 48px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+}
+.footer-ornament {
+  display: flex; align-items: center; gap: 16px; width: 200px;
+}
+.footer-ornament span:not(.fo-heart) {
+  flex: 1; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.fo-heart { color: var(--gold); animation: pulse 2s ease-in-out infinite; }
+.footer-names {
+  font-family: var(--f-script);
+  font-size: 2.2rem;
+  color: var(--gold);
+}
+.footer-date {
+  font-family: var(--f-caps);
+  font-size: 0.65rem;
+  letter-spacing: 0.22em;
+  color: var(--text-muted);
+}
+.footer-love {
+  font-size: 0.65rem;
+  color: rgba(201,168,76,0.35);
+  letter-spacing: 0.12em;
+}
+
+
+/* ════════════════════════════════════════════════════════════
+   ANIMATIONS
+════════════════════════════════════════════════════════════ */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(36px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Scroll-reveal (JS adds .revealed class) */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* ════════════════════════════════════════════════════════════
+   RESPONSIVE — Mobile-first polish
+════════════════════════════════════════════════════════════ */
+@media (max-width: 600px) {
+  .invitation-card,
+  .std-card { margin-left: 12px; margin-right: 12px; }
+
+  .card-border-inner { padding: 20px 16px; }
+
+  .name-divider { width: 100%; }
+
+  .date-cells { gap: 12px; }
+
+  .cd-cell { min-width: 54px; padding: 8px 10px; }
+  .cd-cell span { font-size: 1.5rem; }
+
+  .f-actions { flex-direction: column; align-items: stretch; }
+  .btn-primary, .btn-outline { justify-content: center; }
+
+  .rsvp-form { padding: 20px 16px; }
+
+  .whish-block { position: static; text-align: center; margin-top: 8px; }
+  .bottom-row { flex-direction: column; align-items: center; gap: 8px; }
+}
+
+@media (min-width: 900px) {
+  .invitation-card { margin: 60px auto; }
+  .std-card { margin-bottom: 60px; }
+}
