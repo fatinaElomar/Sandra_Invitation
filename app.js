@@ -209,23 +209,24 @@ function exportToExcel() {
   ];
 
   /* Summary sheet */
-  const attending  = list.filter(g => !g.attendance?.startsWith('No'));
-  const notAttend  = list.filter(g =>  g.attendance?.startsWith('No'));
-  const totalHeads = attending.reduce((s, g) => s + (parseInt(g.guests) || 0), 0);
+  const attending     = list.filter(g => !g.attendance?.startsWith('No'));
+  const notAttend     = list.filter(g =>  g.attendance?.startsWith('No'));
+  const totalAttended = attending.reduce((s, g) => s + (parseInt(g.guests) || 0), 0);
+  const totalInvited  = list.reduce((s, g) => s + (parseInt(g.guests) || 0), 0);
 
   const wsSummary = XLSX.utils.aoa_to_sheet([
     ['Jhony & Sandra Wedding — RSVP Summary'],
     [''],
-    ['Wedding Date',         'Saturday, October 10, 2025'],
-    ['Ceremony',             'Edbel Church — 5:00 PM'],
-    ['Reception',            'Glamour Garden — 7:00 PM'],
+    ['Wedding Date',            'Saturday, October 10, 2025'],
+    ['Ceremony',                'Edbel Church — 5:00 PM'],
+    ['Reception',               'Glamour Garden — 7:00 PM'],
     [''],
-    ['Total Responses',      list.length],
-    ['Attending',            attending.length],
-    ['Not Attending',        notAttend.length],
-    ['Total Guests (heads)', totalHeads],
+    ['Total Attending Guests',  totalAttended],
+    ['Total Invited People',    totalInvited],
+    ['Total RSVP Responses',    list.length],
+    ['Not Attending Count',     notAttend.length],
     [''],
-    ['Report Generated',     new Date().toLocaleString('en-GB')],
+    ['Report Generated',        new Date().toLocaleString('en-GB')],
   ]);
   wsSummary['!cols'] = [{wch:30},{wch:36}];
 

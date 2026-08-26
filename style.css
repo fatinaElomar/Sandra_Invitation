@@ -20,10 +20,20 @@
   --t:             0.3s cubic-bezier(.4,0,.2,1);
 
   /* Typography */
-  --f-script: 'Great Vibes', cursive;
-  --f-serif:  'Playfair Display', 'Georgia', serif;
-  --f-caps:   'Cinzel', 'Trajan Pro', serif;
-  --f-body:   'Lato', sans-serif;
+  --f-script: 'Parisienne', cursive;
+  --f-serif:  'Cinzel', serif;
+  --f-caps:   'Cinzel', serif;
+  --f-body:   'Cinzel', serif;
+}
+
+.parisienne-regular {
+  font-family: 'Parisienne', cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.cinzel-info {
+  font-family: 'Cinzel', serif;
 }
 
 /* ── Reset ───────────────────────────────────────────────── */
