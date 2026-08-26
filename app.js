@@ -73,9 +73,6 @@ function validate(d) {
   else if (!/^[\d\s+\-()]{6,20}$/.test(d.phone)) {
     setError('phone', 'Please enter a valid phone number.'); ok = false;
   }
-  if (d.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email)) {
-    setError('email', 'Please enter a valid email address.'); ok = false;
-  }
   if (!d.attendance) { setError('attendance', 'Please select your attendance.'); ok = false; }
   if (!d.guests || d.guests < 1 || d.guests > 20) {
     setError('guests', 'Enter a number between 1 and 20.'); ok = false;
@@ -123,7 +120,6 @@ async function handleSubmit(e) {
   const data = {
     fullName:   get('fullName'),
     phone:      get('phone'),
-    email:      get('email'),
     attendance: get('attendance'),
     guests:     parseInt(get('guests'), 10) || 0,
     message:    get('message'),
@@ -194,13 +190,12 @@ function exportToExcel() {
   }
 
   const headers = [
-    'Full Name', 'Phone Number', 'Email',
+    'Full Name', 'Phone Number',
     'Attendance', 'Guests (#)', 'Message', 'Submitted At'
   ];
   const rows = list.map(g => [
     g.fullName   || '',
     g.phone      || '',
-    g.email      || '',
     g.attendance || '',
     g.guests     || '',
     g.message    || '',
@@ -209,7 +204,7 @@ function exportToExcel() {
 
   const ws = XLSX.utils.aoa_to_sheet([headers, ...rows]);
   ws['!cols'] = [
-    {wch:26},{wch:18},{wch:30},{wch:34},
+    {wch:26},{wch:18},{wch:34},
     {wch:12},{wch:40},{wch:22}
   ];
 
