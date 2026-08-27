@@ -54,30 +54,230 @@ function refreshCounter() {
   if (el) el.textContent = loadGuests().length;
 }
 
-// ── Validation ────────────────────────────────────────────
-function clearErrors() {
-  document.querySelectorAll('.f-err').forEach(e => (e.textContent = ''));
-  document.querySelectorAll('.invalid').forEach(e => e.classList.remove('invalid'));
+// ── Validation Helpers ────────────────────────────────────
+function clearError(id) {
+  const field = document.getElementById(id);
+  const err   = document.getElementById('err-' + id);
+  if (field) {
+    field.classList.remove('invalid');
+    field.removeAttribute('aria-invalid');
+  }
+  if (err) err.textContent = '';
 }
+
+function clearAllErrors() {
+  ['fullName', 'phone', 'attendance', 'guests', 'message'].forEach(clearError);
+  hideStatus();
+}
+
 function setError(id, msg) {
   const field = document.getElementById(id);
   const err   = document.getElementById('err-' + id);
-  if (field) field.classList.add('invalid');
-  if (err)   err.textContent = msg;
+  if (field) {
+    field.classList.add('invalid');
+    field.setAttribute('aria-invalid', 'true');
+  }
+  if (err) err.textContent = msg;
 }
-function validate(d) {
-  let ok = true;
-  clearErrors();
-  if (!d.fullName) { setError('fullName', 'Full name is required.'); ok = false; }
-  if (!d.phone)    { setError('phone', 'Phone number is required.'); ok = false; }
-  else if (!/^[\d\s+\-()]{6,20}$/.test(d.phone)) {
-    setError('phone', 'Please enter a valid phone number.'); ok = false;
+
+// ── Single Field Validator ────────────────────────────────
+function validateField(id) {
+  const el = document.getElementById(id);
+  if (!el) return true;
+  const val = el.value.trim();
+
+  if (id === 'fullName') {
+    if (!val) {
+      setError('fullName', 'Full name is required.');
+      return false;
+    }
+    if (val.length < 2) {
+      setError('fullName', 'Please enter your full name (at least 2 characters).');
+      return false;
+    }
+    if (/^[\d\W_]+$/.test(val)) {
+      setError('fullName', 'Please enter a valid name.');
+      return false;
+    }
+    clearError('fullName');
+    return true;
   }
-  if (!d.attendance) { setError('attendance', 'Please select your attendance.'); ok = false; }
-  if (!d.guests || d.guests < 1 || d.guests > 20) {
-    setError('guests', 'Enter a number between 1 and 20.'); ok = false;
+
+  if (id === 'phone') {
+    if (!val) {
+      setError('phone', 'Phone number is required.');
+      return false;
+    }
+    const digits = val.replace(/\D/g, '');
+    if (digits.length < 8) {
+      setError('phone', 'Please enter a valid phone number (e.g. 70-123 456).');
+      return false;
+    }
+    clearError('phone');
+    return true;
   }
-  return ok;
+
+  if (id === 'attendance') {
+    if (!val || val === '') {
+      setError('attendance', 'Please select whether you will attend.');
+      return false;
+    }
+    clearError('attendance');
+    return true;
+  }
+
+  if (id === 'guests') {
+    const att = document.getElementById('attendance')?.value || '';
+    const isUnable = att.toLowerCase().includes('unable');
+    if (isUnable) {
+      clearError('guests');
+      return true;
+    }
+    const num = parseInt(val, 10);
+    if (!val || isNaN(num)) {
+      setError('guests', 'Number of guests is required.');
+      return false;
+    }
+    if (num < 1) {
+      setError('guests', 'Minimum is 1 guest.');
+      return false;
+    }
+    if (num > 20) {
+      setError('guests', 'Maximum is 20 guests.');
+      return false;
+    }
+    clearError('guests');
+    return true;
+  }
+
+  if (id === 'message') {
+    if (val.length > 500) {
+      setError('message', 'Message is too long (maximum 500 characters).');
+      return false;
+    }
+    clearError('message');
+    return true;
+  }
+
+  return true;
+}
+
+// ── Phone Auto-Decorator (XX-XXX XXX) ────────────────────
+function formatPhoneNumber(val) {
+  if (!val) return '';
+  const isPlus = val.trim().startsWith('+');
+  let digits = val.replace(/\D/g, '');
+
+  if (isPlus) {
+    if (digits.startsWith('961')) {
+      const rest = digits.slice(3, 11);
+      let res = '+961';
+      if (rest.length > 0) res += ' ' + rest.slice(0, 2);
+      if (rest.length > 2) res += '-' + rest.slice(2, 5);
+      if (rest.length > 5) res += ' ' + rest.slice(5, 8);
+      return res;
+    }
+    return '+' + digits.slice(0, 15);
+  }
+
+  // Format: XX-XXX XXX
+  digits = digits.slice(0, 8);
+  let res = '';
+  if (digits.length > 0) {
+    res = digits.slice(0, 2);
+  }
+  if (digits.length > 2) {
+    res += '-' + digits.slice(2, 5);
+  }
+  if (digits.length > 5) {
+    res += ' ' + digits.slice(5, 8);
+  }
+  return res;
+}
+
+// ── Validate Entire Form ──────────────────────────────────
+function validateForm() {
+  let firstInvalid = null;
+  const fields = ['fullName', 'phone', 'attendance', 'guests', 'message'];
+  let isValid = true;
+
+  fields.forEach(id => {
+    const ok = validateField(id);
+    if (!ok) {
+      isValid = false;
+      if (!firstInvalid) firstInvalid = document.getElementById(id);
+    }
+  });
+
+  if (!isValid && firstInvalid) {
+    const form = document.getElementById('rsvpForm');
+    if (form) {
+      form.classList.remove('form-shake');
+      void form.offsetWidth; // Trigger reflow
+      form.classList.add('form-shake');
+    }
+    firstInvalid.focus();
+  }
+
+  return isValid;
+}
+
+// ── Setup Real-time Validation Listeners ──────────────────
+function initValidation() {
+  const fields = ['fullName', 'phone', 'attendance', 'guests', 'message'];
+
+  fields.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    // Validate when user leaves the input
+    el.addEventListener('blur', () => {
+      validateField(id);
+    });
+
+    // Clear error live while typing once valid
+    el.addEventListener('input', () => {
+      if (el.classList.contains('invalid')) {
+        validateField(id);
+      }
+    });
+  });
+
+  // Phone auto-decoration on input
+  const phoneEl = document.getElementById('phone');
+  if (phoneEl) {
+    phoneEl.addEventListener('input', (e) => {
+      phoneEl.value = formatPhoneNumber(phoneEl.value);
+      if (phoneEl.classList.contains('invalid')) {
+        validateField('phone');
+      }
+    });
+  }
+
+  // Dynamic behavior when attendance option changes
+  const attendanceSelect = document.getElementById('attendance');
+  const guestsInput = document.getElementById('guests');
+  if (attendanceSelect) {
+    attendanceSelect.addEventListener('change', () => {
+      validateField('attendance');
+      const val = attendanceSelect.value;
+      if (val.toLowerCase().includes('unable')) {
+        clearError('guests');
+        if (guestsInput) {
+          guestsInput.value = '0';
+          guestsInput.style.opacity = '0.5';
+        }
+      } else {
+        if (guestsInput) {
+          guestsInput.style.opacity = '1';
+          if (!guestsInput.value || guestsInput.value === '0') {
+            guestsInput.value = '1';
+          }
+        }
+        validateField('guests');
+      }
+    });
+  }
 }
 
 // ── Status banner ─────────────────────────────────────────
@@ -115,18 +315,22 @@ async function sendToGoogleSheet(data) {
 async function handleSubmit(e) {
   e.preventDefault();
 
+  if (!validateForm()) {
+    showStatus('error', '⚠️ Please complete all required fields correctly.');
+    return;
+  }
+
   const get = id => document.getElementById(id)?.value?.trim() ?? '';
+  const isUnable = get('attendance').toLowerCase().includes('unable');
 
   const data = {
     fullName:   get('fullName'),
     phone:      get('phone'),
     attendance: get('attendance'),
-    guests:     parseInt(get('guests'), 10) || 0,
+    guests:     isUnable ? 0 : (parseInt(get('guests'), 10) || 1),
     message:    get('message'),
     timestamp:  new Date().toLocaleString('en-GB'),
   };
-
-  if (!validate(data)) return;
 
   // Disable button while sending
   const btn = document.getElementById('submitBtn');
@@ -160,7 +364,9 @@ function showSuccessPanel(data) {
 
   form.style.display = 'none';
 
-  msg.textContent = data.attendance.startsWith('No')
+  const isAttending = data.attendance?.toLowerCase().startsWith('yes');
+
+  msg.textContent = !isAttending
     ? "We're sorry you can't make it. Thank you for letting us know — we'll miss you!"
     : "Your RSVP has been received! We can't wait to celebrate with you on October 10th! 🎉";
 
@@ -173,7 +379,7 @@ function resetForm() {
   const form    = document.getElementById('rsvpForm');
   const success = document.getElementById('successCard');
   form.reset();
-  clearErrors();
+  clearAllErrors();
   hideStatus();
   success.style.display = 'none';
   form.style.display    = 'block';
@@ -209,8 +415,8 @@ function exportToExcel() {
   ];
 
   /* Summary sheet */
-  const attending     = list.filter(g => !g.attendance?.startsWith('No'));
-  const notAttend     = list.filter(g =>  g.attendance?.startsWith('No'));
+  const attending     = list.filter(g => g.attendance?.toLowerCase().startsWith('yes'));
+  const notAttend     = list.filter(g => !g.attendance?.toLowerCase().startsWith('yes'));
   const totalAttended = attending.reduce((s, g) => s + (parseInt(g.guests) || 0), 0);
   const totalInvited  = list.reduce((s, g) => s + (parseInt(g.guests) || 0), 0);
 
@@ -344,11 +550,20 @@ function initBackground() {
       ctx.translate(this.x, this.y);
       ctx.rotate(this.rot);
       ctx.globalAlpha = this.alpha;
-      ctx.font = `${this.size}px serif`;
       ctx.fillStyle = goldColor(this.alpha);
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText('\u2665', 0, 0);
+
+      // Draw vector heart path
+      const s = this.size;
+      const topCurve = s * 0.3;
+      ctx.beginPath();
+      ctx.moveTo(0, topCurve - s * 0.5);
+      ctx.bezierCurveTo(0, -s * 0.5, -s * 0.5, -s * 0.5, -s * 0.5, topCurve - s * 0.5);
+      ctx.bezierCurveTo(-s * 0.5, (s + topCurve) * 0.5 - s * 0.5, 0, (s + topCurve) * 0.7 - s * 0.5, 0, s - s * 0.5);
+      ctx.bezierCurveTo(0, (s + topCurve) * 0.7 - s * 0.5, s * 0.5, (s + topCurve) * 0.5 - s * 0.5, s * 0.5, topCurve - s * 0.5);
+      ctx.bezierCurveTo(s * 0.5, -s * 0.5, 0, -s * 0.5, 0, topCurve - s * 0.5);
+      ctx.closePath();
+      ctx.fill();
+
       ctx.restore();
       ctx.globalAlpha = 1;
     }
@@ -435,6 +650,7 @@ document.addEventListener('DOMContentLoaded', () => {
   setInterval(tick, 1000);
   refreshCounter();
   initReveal();
+  initValidation();            // ← live real-time input validation
 
   const form = document.getElementById('rsvpForm');
   if (form) form.addEventListener('submit', handleSubmit);

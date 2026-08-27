@@ -388,19 +388,19 @@ body {
   line-height: 1;
 }
 .mono-j, .mono-s {
-  font-family: var(--f-serif);
-  font-weight: 700;
+  font-family: var(--f-script);
+  font-weight: 400;
   color: var(--gold);
   line-height: 1;
 }
 .mono-j {
-  font-size: clamp(3rem, 8vw, 4.8rem);
-  transform: translateX(6px) translateY(6px);
+  font-size: clamp(3.8rem, 9.5vw, 5.6rem);
+  transform: translateX(6px) translateY(2px);
   z-index: 1;
   position: relative;
 }
 .mono-s {
-  font-size: clamp(3.6rem, 9vw, 5.8rem);
+  font-size: clamp(4.2rem, 10.5vw, 6.2rem);
   transform: translateX(-4px);
 }
 .mono-sub {
@@ -414,7 +414,7 @@ body {
 /* ── October script ──────────────────────────────────────── */
 .std-month {
   font-family: var(--f-script);
-  font-size: clamp(3rem, 8vw, 5rem);
+  font-size: clamp(3.2rem, 8.5vw, 5.4rem);
   color: var(--gold);
   line-height: 1.1;
   margin-bottom: 24px;
@@ -453,8 +453,8 @@ body {
 /* Wedding day highlight — heart surrounds the number */
 .cal-d.wedding {
   position: relative;
-  width: 52px;
-  height: 52px;
+  width: 48px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -462,22 +462,18 @@ body {
   cursor: default;
 }
 
-/* Large heart ring behind the number */
-.cal-heart-ring {
+/* SVG Gold Heart behind the number */
+.cal-heart-svg {
   position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 3.4rem;
-  line-height: 1;
-  /* Outline-only heart: dark fill so the number shows through */
-  color: transparent;
-  -webkit-text-stroke: 1.8px var(--gold);
-  text-stroke: 1.8px var(--gold);
-  filter: drop-shadow(0 0 6px rgba(201,168,76,0.45));
-  animation: ringPulse 2.5s ease-in-out infinite;
-  user-select: none;
+  width: 44px;
+  height: 44px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 0 8px rgba(201,168,76,0.6));
+  animation: heartPulse 2.5s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
 }
 
 /* The number itself on top */
@@ -485,15 +481,23 @@ body {
   position: relative;
   z-index: 2;
   font-family: var(--f-body);
-  font-size: clamp(0.75rem, 2vw, 0.88rem);
+  font-size: clamp(0.8rem, 2.2vw, 0.95rem);
   font-weight: 700;
-  color: var(--gold);
+  color: #ffffff;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.8);
   letter-spacing: 0;
   line-height: 1;
 }
-@keyframes ringPulse {
-  0%,100% { box-shadow: 0 0 0 0 rgba(201,168,76,0.5); }
-  50%      { box-shadow: 0 0 0 8px rgba(201,168,76,0); }
+
+@keyframes heartPulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+    filter: drop-shadow(0 0 4px rgba(201,168,76,0.45));
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.16);
+    filter: drop-shadow(0 0 12px rgba(201,168,76,0.85));
+  }
 }
 
 /* ── "save the date" script ──────────────────────────────── */
@@ -625,8 +629,9 @@ input:focus, textarea:focus {
   background: #2a2a2a;
 }
 input.invalid, select.invalid, textarea.invalid {
-  border-color: #d9534f;
-  box-shadow: 0 0 0 3px rgba(217,83,79,0.15);
+  border-color: #e07070 !important;
+  background: #281c1c !important;
+  box-shadow: 0 0 0 3px rgba(224,112,112,0.22) !important;
 }
 textarea { resize: vertical; min-height: 96px; }
 
@@ -658,8 +663,24 @@ textarea { resize: vertical; min-height: 96px; }
 }
 
 .f-err {
-  font-size: 0.7rem; color: #e07070;
-  min-height: 14px; display: block;
+  font-family: var(--f-caps);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  color: #ff7b7b;
+  min-height: 16px;
+  display: block;
+  margin-top: 3px;
+  transition: opacity 0.2s ease;
+}
+
+/* Form error shake */
+.form-shake {
+  animation: shake 0.45s ease-in-out;
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-8px); }
+  40%, 80% { transform: translateX(8px); }
 }
 
 /* ── Form actions ────────────────────────────────────────── */

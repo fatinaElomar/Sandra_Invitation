@@ -166,7 +166,9 @@
       <div class="cal-d">4</div><div class="cal-d">5</div><div class="cal-d">6</div>
       <div class="cal-d">7</div><div class="cal-d">8</div><div class="cal-d">9</div>
       <div class="cal-d wedding" aria-label="Wedding day, October 10">
-        <span class="cal-heart-ring">&#9829;</span>
+        <svg class="cal-heart-svg" viewBox="0 0 32 32" aria-hidden="true">
+          <path d="M16 28 C16 28 3 19.5 3 11 C3 6.5 6.8 3 11.2 3 C14 3 16 4.8 16 4.8 C16 4.8 18 3 20.8 3 C25.2 3 29 6.5 29 11 C29 19.5 16 28 16 28 Z" fill="rgba(201,168,76,0.15)" stroke="var(--gold)" stroke-width="1.8" stroke-linejoin="round" />
+        </svg>
         <span class="cal-num">10</span>
       </div>
       <div class="cal-d">11</div><div class="cal-d">12</div><div class="cal-d">13</div>
@@ -214,7 +216,7 @@
           </div>
           <div class="f-group">
             <label for="phone">Phone Number <span class="req">*</span></label>
-            <input type="tel"   id="phone"       name="phone"       placeholder="+961 XX XXX XXX" required />
+            <input type="tel" id="phone" name="phone" placeholder="70-123 456" maxlength="18" required />
             <span class="f-err" id="err-phone"></span>
           </div>
         </div>
@@ -225,10 +227,8 @@
             <div class="select-wrap">
               <select id="attendance" name="attendance" required>
                 <option value="" disabled selected>Select…</option>
-                <option value="Yes – Ceremony &amp; Reception">Yes – Ceremony &amp; Reception</option>
-                <option value="Yes – Ceremony only">Yes – Ceremony Only</option>
-                <option value="Yes – Reception only">Yes – Reception Only</option>
-                <option value="No – Unable to attend">No – Unable to Attend</option>
+                <option value="Yes, I will attend">Yes, I will attend</option>
+                <option value="Unable to attend">Unable to attend</option>
               </select>
               <span class="select-arrow">▾</span>
             </div>
@@ -244,6 +244,7 @@
         <div class="f-group f-full">
           <label for="message">Warm Wishes to the Couple</label>
           <textarea id="message" name="message" rows="4" placeholder="Write your heartfelt message here…"></textarea>
+          <span class="f-err" id="err-message"></span>
         </div>
 
         <!-- Submission status banner -->
