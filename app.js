@@ -9,7 +9,7 @@
 ══════════════════════════════════════════════════════════ */
 
 // ▼▼▼  PASTE YOUR APPS SCRIPT URL HERE  ▼▼▼
-const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzM3kuz6Y8LWIZJfo8TMd_3IhkWDE5ZfJrzPAsfTBD5CsFhGpDZd1an52V-YyNFjGiB4A/exec';
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwi6Fgke5l_VzAICB5-jfU35B3a1U-b4HtIbh8dafaq-u6zWt3yAjw5Sm5aG1K8t6Rq/exec';
 // ▲▲▲  ─────────────────────────────────  ▲▲▲
 
 const STORAGE_KEY = 'jhony_sandra_rsvp_v2';
