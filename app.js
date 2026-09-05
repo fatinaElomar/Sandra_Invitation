@@ -14,6 +14,10 @@ const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwi6Fgke5l_VzAICB5-jf
 
 const STORAGE_KEY = 'jhony_sandra_rsvp_v2';
 
+// ── Guest limit (default 2; updated live from Google Sheet) ──
+const DEFAULT_MAX_GUESTS = 2;
+let allowedGuestsForName = DEFAULT_MAX_GUESTS;
+
 // ── localStorage helpers ──────────────────────────────────
 function loadGuests() {
   try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
@@ -142,8 +146,8 @@ function validateField(id) {
       setError('guests', 'Minimum is 1 guest.');
       return false;
     }
-    if (num > 20) {
-      setError('guests', 'Maximum is 20 guests.');
+    if (num > allowedGuestsForName) {
+      setError('guests', `Maximum is ${allowedGuestsForName} guest(s) for your invitation.`);
       return false;
     }
     clearError('guests');
@@ -222,6 +226,48 @@ function validateForm() {
   return isValid;
 }
 
+// ── Live name lookup — updates max guests from Google Sheet ──
+async function lookupGuestLimit(name) {
+  if (!SHEET_URL || SHEET_URL === 'YOUR_APPS_SCRIPT_URL_HERE') return;
+  if (!name || name.length < 2) return;
+
+  const guestsInput  = document.getElementById('guests');
+  const guestHint    = document.getElementById('guest-limit-hint');
+
+  try {
+    // Build the GET URL using the same base URL (replace /exec with /exec?checkName=...)
+    const url = SHEET_URL + '?checkName=' + encodeURIComponent(name);
+    const res = await fetch(url, { mode: 'cors' });
+    if (!res.ok) return;
+    const data = await res.json();
+
+    if (data.found && data.maxGuests) {
+      allowedGuestsForName = data.maxGuests;
+    } else {
+      allowedGuestsForName = DEFAULT_MAX_GUESTS;
+    }
+  } catch (_) {
+    allowedGuestsForName = DEFAULT_MAX_GUESTS;
+  }
+
+  // Update the input's max attribute
+  if (guestsInput) {
+    guestsInput.max = allowedGuestsForName;
+    // Clamp current value if it exceeds new max
+    const cur = parseInt(guestsInput.value, 10);
+    if (cur > allowedGuestsForName) guestsInput.value = allowedGuestsForName;
+  }
+
+  // Show subtle hint
+  if (guestHint) {
+    guestHint.textContent = `Up to ${allowedGuestsForName} guest(s) allowed for your invitation`;
+    guestHint.style.display = 'block';
+  }
+
+  // Re-run guest validation with updated limit
+  validateField('guests');
+}
+
 // ── Setup Real-time Validation Listeners ──────────────────
 function initValidation() {
   const fields = ['fullName', 'phone', 'attendance', 'guests', 'message'];
@@ -251,6 +297,15 @@ function initValidation() {
       if (phoneEl.classList.contains('invalid')) {
         validateField('phone');
       }
+    });
+  }
+
+  // ── Live name lookup on fullName blur ─────────────────────
+  const nameEl = document.getElementById('fullName');
+  if (nameEl) {
+    nameEl.addEventListener('blur', () => {
+      const name = nameEl.value.trim();
+      if (name.length >= 2) lookupGuestLimit(name);
     });
   }
 
@@ -442,21 +497,301 @@ function exportToExcel() {
   XLSX.writeFile(wb, 'Jhony_Sandra_RSVP_GuestList.xlsx');
 }
 
-// ── Scroll reveal ─────────────────────────────────────────
-function initReveal() {
-  const io = new IntersectionObserver(entries => {
-    entries.forEach(en => {
-      if (en.isIntersecting) {
-        en.target.classList.add('revealed');
-        io.unobserve(en.target);
+// ── Scroll Reveal, Progressive "Magic Typing" & Parallax ──
+function initProgressiveScrollReveal() {
+  const elements = document.querySelectorAll('.fs-section, .type-reveal, .reveal-progressive, .reveal-fade-up, .reveal-zoom');
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const delay = parseInt(el.getAttribute('data-delay') || '0', 10);
+
+        setTimeout(() => {
+          el.classList.add('is-revealed');
+        }, delay);
+
+        // If a section entered, also trigger reveals on its child items
+        if (el.classList.contains('fs-section')) {
+          el.querySelectorAll('.type-reveal, .reveal-progressive, .reveal-fade-up, .reveal-zoom').forEach(child => {
+            const childDelay = parseInt(child.getAttribute('data-delay') || '0', 10);
+            setTimeout(() => {
+              child.classList.add('is-revealed');
+            }, childDelay);
+          });
+        }
       }
     });
-  }, { threshold: 0.12 });
-
-  document.querySelectorAll('.std-card, .rsvp-section').forEach(el => {
-    el.classList.add('reveal');
-    io.observe(el);
+  }, {
+    threshold: 0.1,
+    rootMargin: '0px 0px -40px 0px'
   });
+
+  elements.forEach(el => io.observe(el));
+}
+
+function initParallaxAndSceneNav() {
+  const sections = Array.from(document.querySelectorAll('.fs-section'));
+  const dots = document.querySelectorAll('.scene-dot');
+  let isTicking = false;
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function update() {
+    const vh = window.innerHeight;
+
+    // 1. Subtle gentle floating parallax on the section photo backdrop
+    if (!prefersReducedMotion) {
+      for (let i = 0; i < sections.length; i++) {
+        const sec = sections[i];
+        const bg = sec.querySelector('.fs-bg');
+        if (bg) {
+          const rect = sec.getBoundingClientRect();
+          if (rect.top < vh && rect.bottom > 0) {
+            // Distance of section center from viewport center
+            const centerOffset = (rect.top + rect.height * 0.5 - vh * 0.5) / vh;
+            const yShift = centerOffset * 30;
+            bg.style.transform = `scale(1.03) translateY(${yShift.toFixed(1)}px)`;
+          }
+        }
+      }
+    }
+
+    // 2. Continuous scene chapter dot tracker
+    let activeSectionId = 'couple-photo';
+    for (let i = 0; i < sections.length; i++) {
+      const sec = sections[i];
+      const rect = sec.getBoundingClientRect();
+      if (rect.top <= vh * 0.5 && rect.bottom >= vh * 0.25) {
+        const id = sec.getAttribute('id');
+        if (id && id !== 'footer') {
+          activeSectionId = id;
+        }
+      }
+    }
+
+    if (activeSectionId && dots.length > 0) {
+      dots.forEach(dot => {
+        if (dot.getAttribute('data-scene') === activeSectionId) {
+          dot.classList.add('active');
+        } else {
+          dot.classList.remove('active');
+        }
+      });
+    }
+
+    isTicking = false;
+  }
+
+  window.addEventListener('scroll', () => {
+    if (!isTicking) {
+      window.requestAnimationFrame(update);
+      isTicking = true;
+    }
+  }, { passive: true });
+
+  window.addEventListener('resize', () => {
+    if (!isTicking) {
+      window.requestAnimationFrame(update);
+      isTicking = true;
+    }
+  }, { passive: true });
+
+  // Smooth click scroll for scene dots
+  dots.forEach(dot => {
+    dot.addEventListener('click', (e) => {
+      const targetId = dot.getAttribute('data-scene');
+      const targetEl = document.getElementById(targetId);
+      if (targetEl) {
+        e.preventDefault();
+        targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  update();
+}
+
+// ── Romantic Wedding Background Music Controller ──────────
+function initMusic() {
+  const audio   = document.getElementById('bgAudio');
+  const btn     = document.getElementById('musicToggleBtn');
+  const tooltip = document.getElementById('musicTooltip');
+  if (!btn || !audio) return;
+
+  let isPlaying = false;
+  let audioCtx = null;
+  let synthTimer = null;
+
+  // Romantic Harp synthesizer fallback (Pachelbel's Canon chord progression in D major)
+  function playProceduralRomanticMusic() {
+    try {
+      if (!audioCtx) {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        audioCtx = new AudioContext();
+      }
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+
+      // Canon in D chords: D - A - Bm - F#m - G - D - G - A
+      const chords = [
+        [293.66, 369.99, 440.00, 587.33],
+        [220.00, 277.18, 329.63, 440.00],
+        [246.94, 293.66, 369.99, 493.88],
+        [185.00, 220.00, 277.18, 369.99],
+        [196.00, 246.94, 293.66, 392.00],
+        [293.66, 369.99, 440.00, 587.33],
+        [196.00, 246.94, 293.66, 392.00],
+        [220.00, 277.18, 329.63, 440.00]
+      ];
+
+      let chordIdx = 0;
+      let noteIdx = 0;
+
+      function playHarpNote(freq, time) {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(freq, time);
+
+        // Soft bell/harp acoustic envelope
+        gain.gain.setValueAtTime(0.0001, time);
+        gain.gain.exponentialRampToValueAtTime(0.035, time + 0.05);
+        gain.gain.exponentialRampToValueAtTime(0.0001, time + 1.5);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(time);
+        osc.stop(time + 1.6);
+      }
+
+      function step() {
+        if (!isPlaying) return;
+        const now = audioCtx.currentTime;
+        const currentChord = chords[chordIdx];
+        const noteFreq = currentChord[noteIdx];
+        playHarpNote(noteFreq, now);
+
+        noteIdx++;
+        if (noteIdx >= currentChord.length) {
+          noteIdx = 0;
+          chordIdx = (chordIdx + 1) % chords.length;
+        }
+        synthTimer = setTimeout(step, 500);
+      }
+      step();
+    } catch (e) {
+      console.warn('Web Audio synthesis not supported:', e);
+    }
+  }
+
+  function stopProceduralRomanticMusic() {
+    if (synthTimer) {
+      clearTimeout(synthTimer);
+      synthTimer = null;
+    }
+  }
+
+  async function playMusic() {
+    isPlaying = true;
+    btn.classList.add('playing');
+    if (tooltip) tooltip.style.opacity = '0';
+
+    try {
+      audio.volume = 0.55;
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(err => {
+          console.log('Audio file blocked or unavailable, launching magical music box synthesis');
+          playProceduralRomanticMusic();
+        });
+      }
+    } catch (err) {
+      playProceduralRomanticMusic();
+    }
+  }
+
+  function pauseMusic() {
+    isPlaying = false;
+    btn.classList.remove('playing');
+    audio.pause();
+    stopProceduralRomanticMusic();
+  }
+
+  function toggleMusic(e) {
+    if (e) e.stopPropagation();
+    if (isPlaying) {
+      pauseMusic();
+    } else {
+      playMusic();
+    }
+  }
+
+  btn.addEventListener('click', toggleMusic);
+
+  // Auto-start on first user interaction (click/touch anywhere on the page)
+  let userInteracted = false;
+  function handleFirstInteraction() {
+    if (userInteracted) return;
+    userInteracted = true;
+    if (!isPlaying) {
+      playMusic();
+    }
+    document.removeEventListener('pointerdown', handleFirstInteraction);
+    document.removeEventListener('keydown', handleFirstInteraction);
+  }
+  document.addEventListener('pointerdown', handleFirstInteraction, { once: true });
+  document.addEventListener('keydown', handleFirstInteraction, { once: true });
+}
+
+// ── Interactive Fairy Dust on Mouse Move & Touch ──────────
+function initMagicCursorDust() {
+  let lastSpawn = 0;
+  const chars = ['✦', '✨', '•', '⋆'];
+  const colors = ['#ffe8a3', '#ffd766', '#d4b86a', '#ffffff'];
+
+  function spawnSparkle(x, y) {
+    const now = Date.now();
+    if (now - lastSpawn < 35) return;
+    lastSpawn = now;
+
+    const el = document.createElement('span');
+    el.textContent = chars[Math.floor(Math.random() * chars.length)];
+    el.style.position = 'fixed';
+    el.style.left = (x + (Math.random() * 16 - 8)) + 'px';
+    el.style.top = (y + (Math.random() * 16 - 8)) + 'px';
+    el.style.color = colors[Math.floor(Math.random() * colors.length)];
+    el.style.fontSize = (Math.random() * 10 + 8) + 'px';
+    el.style.pointerEvents = 'none';
+    el.style.zIndex = '99999';
+    el.style.transition = 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)';
+    el.style.opacity = '1';
+    el.style.transform = 'translateY(0) scale(1) rotate(0deg)';
+    el.style.filter = 'drop-shadow(0 0 6px rgba(255,220,120,0.8))';
+
+    document.body.appendChild(el);
+
+    requestAnimationFrame(() => {
+      const vx = (Math.random() - 0.5) * 32;
+      const vy = - (Math.random() * 35 + 15);
+      el.style.opacity = '0';
+      el.style.transform = `translate(${vx}px, ${vy}px) scale(0.3) rotate(${Math.random() * 90 - 45}deg)`;
+    });
+
+    setTimeout(() => {
+      if (el.parentNode) el.parentNode.removeChild(el);
+    }, 850);
+  }
+
+  window.addEventListener('mousemove', e => {
+    spawnSparkle(e.clientX, e.clientY);
+  }, { passive: true });
+
+  window.addEventListener('touchmove', e => {
+    if (e.touches && e.touches[0]) {
+      spawnSparkle(e.touches[0].clientX, e.touches[0].clientY);
+    }
+  }, { passive: true });
 }
 
 // ══════════════════════════════════════════════════════════
@@ -644,14 +979,167 @@ function initBackground() {
 }
 
 
+// ══════════════════════════════════════════════════════════
+// LUXURY INVITATION INTRO CONTROLLER
+// ══════════════════════════════════════════════════════════
+function initEnvelopeIntro() {
+  const overlay   = document.getElementById('envelopeIntro');
+  const openBtn   = document.getElementById('openInvitationBtn');
+  const skipBtn   = document.getElementById('skipIntroBtn');
+  const outerCard = document.getElementById('envelopeBox');
+  const sparkleFd = document.getElementById('envSparkleField');
+  if (!overlay) return;
+
+  // Prevent background scroll while invitation is shown
+  document.body.style.overflow = 'hidden';
+
+  // Ambient floating gold dust inside the intro screen
+  if (sparkleFd) {
+    const chars = ['✦', '✨', '•', '⋆', '♥'];
+    for (let i = 0; i < 24; i++) {
+      const sp = document.createElement('span');
+      sp.textContent = chars[Math.floor(Math.random() * chars.length)];
+      sp.style.position = 'absolute';
+      sp.style.left = (Math.random() * 100) + '%';
+      sp.style.top = (Math.random() * 100) + '%';
+      sp.style.color = 'rgba(180, 154, 108, ' + (Math.random() * 0.4 + 0.1) + ')';
+      sp.style.fontSize = (Math.random() * 8 + 6) + 'px';
+      sp.style.pointerEvents = 'none';
+      sp.style.animation = 'sparkleTwinkle ' + (Math.random() * 4 + 3) + 's ease-in-out infinite alternate';
+      sp.style.animationDelay = (Math.random() * 4) + 's';
+      sparkleFd.appendChild(sp);
+    }
+  }
+
+  let opened = false;
+
+  function openEnvelope() {
+    if (opened) return;
+    opened = true;
+
+    // Start background music on user's tap
+    const audio    = document.getElementById('bgAudio');
+    const musicBtn = document.getElementById('musicToggleBtn');
+    const tooltip  = document.getElementById('musicTooltip');
+    if (tooltip) tooltip.style.opacity = '0';
+    if (audio) {
+      audio.volume = 0.55;
+      const pp = audio.play();
+      if (pp !== undefined) {
+        pp.then(() => { if (musicBtn) musicBtn.classList.add('playing'); })
+          .catch(() => { if (musicBtn) musicBtn.classList.add('playing'); });
+      }
+    }
+
+    // Animate card away
+    overlay.classList.add('opening');
+
+    // Ensure background video plays smoothly
+    const bgVid = document.getElementById('mainBgVideo');
+    if (bgVid) bgVid.play().catch(() => {});
+
+    // Fade out the whole overlay
+    setTimeout(() => {
+      overlay.classList.add('is-opened');
+      document.body.style.overflow = '';
+    }, 700);
+
+    // Remove from render tree
+    setTimeout(() => {
+      overlay.style.display = 'none';
+      const cp = document.getElementById('couple-photo') || document.getElementById('invitation');
+      if (cp) cp.classList.add('is-revealed');
+    }, 1600);
+  }
+
+  function skipIntro() {
+    if (opened) return;
+    opened = true;
+    document.body.style.overflow = '';
+    overlay.classList.add('is-opened');
+
+    const bgVid = document.getElementById('mainBgVideo');
+    if (bgVid) bgVid.play().catch(() => {});
+
+    const audio    = document.getElementById('bgAudio');
+    const musicBtn = document.getElementById('musicToggleBtn');
+    if (audio) {
+      audio.volume = 0.55;
+      audio.play().then(() => {
+        if (musicBtn) musicBtn.classList.add('playing');
+      }).catch(() => {});
+    }
+
+    setTimeout(() => {
+      overlay.style.display = 'none';
+      const cp = document.getElementById('couple-photo') || document.getElementById('invitation');
+      if (cp) cp.classList.add('is-revealed');
+    }, 900);
+  }
+
+  if (openBtn)   openBtn.addEventListener('click', openEnvelope);
+  if (skipBtn)   skipBtn.addEventListener('click', skipIntro);
+  // Clicking anywhere on the outer card also opens
+  if (outerCard) outerCard.addEventListener('click', openEnvelope);
+}
+
+
+// ── Common Background Video Controller ────────────────────
+function initBgVideo() {
+  const vid = document.getElementById('mainBgVideo');
+  if (!vid) return;
+
+  function attemptPlay() {
+    vid.muted = true;
+    const playPromise = vid.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {
+        // Will resume on first user touch/interaction
+      });
+    }
+  }
+
+  attemptPlay();
+
+  // Resume play immediately on first click, touch or scroll
+  const onFirstTouch = () => {
+    attemptPlay();
+    window.removeEventListener('click', onFirstTouch);
+    window.removeEventListener('touchstart', onFirstTouch);
+    window.removeEventListener('scroll', onFirstTouch);
+  };
+  window.addEventListener('click', onFirstTouch, { passive: true, once: true });
+  window.addEventListener('touchstart', onFirstTouch, { passive: true, once: true });
+  window.addEventListener('scroll', onFirstTouch, { passive: true, once: true });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-  initBackground();            // ← animated canvas background
+  initBgVideo();                  // ← continuous background video controller
+  initEnvelopeIntro();            // ← open letter envelope intro
+  initBackground();               // ← animated canvas background
+  initProgressiveScrollReveal();  // ← progressive scroll-triggered text reveal & magic animations
+  initParallaxAndSceneNav();      // ← continuous scene transitions, parallax & chapter navigation
+  initMusic();                    // ← romantic wedding background music controller
+  initMagicCursorDust();          // ← interactive golden fairy dust on mouse & touch
   tick();
   setInterval(tick, 1000);
   refreshCounter();
-  initReveal();
-  initValidation();            // ← live real-time input validation
+  initValidation();               // ← live real-time input validation
 
   const form = document.getElementById('rsvpForm');
   if (form) form.addEventListener('submit', handleSubmit);
+
+  // Smooth scroll and focus for RSVP action buttons
+  const openRsvpBtn = document.getElementById('openRsvpFormBtn');
+  if (openRsvpBtn) {
+    openRsvpBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const formEl = document.getElementById('rsvpForm');
+      if (formEl) {
+        formEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        const nameInput = document.getElementById('fullName');
+        if (nameInput) setTimeout(() => nameInput.focus(), 600);
+      }
+    });
+  }
 });
