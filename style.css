@@ -446,7 +446,7 @@ a:hover {
   object-fit: contain;
   position: relative;
   z-index: 2;
-  filter: drop-shadow(0 8px 24px rgba(43, 33, 27, 0.25));
+  border-radius:7px;
   animation: sealFloat 5s ease-in-out infinite alternate;
 }
 
