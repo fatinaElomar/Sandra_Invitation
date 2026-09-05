@@ -268,10 +268,10 @@ a:hover {
 /* ── Rear envelope flap (peeks above the card top) ── */
 .inv-rear-flap {
   position: absolute;
-  top: -14px;
+  top: 10px;
   left: 0;
   right: 0;
-  height: 80px;
+
   z-index: 1;
   overflow: hidden;
   border-radius: 12px 12px 0 0;
@@ -279,7 +279,7 @@ a:hover {
 
 .inv-rear-flap-triangle {
   width: 100%;
-  height: 80px;
+  height: 158px;
   background: linear-gradient(165deg, #e6dac9 0%, #cfc4ae 100%);
   clip-path: polygon(0 0, 100% 0, 50% 100%);
   border-top: 1.5px solid rgba(180, 154, 108, 0.5);
@@ -327,20 +327,22 @@ a:hover {
 .inv-lace-top {
   width: 105%;
   max-width: 500px;
+  top: 150px;
   height: clamp(80px, 16vw, 120px);
   margin-top: -4px;
   margin-bottom: -10px;
   pointer-events: none;
   filter: drop-shadow(0 4px 10px rgba(43, 33, 27, 0.1));
   animation: laceDrape 7s ease-in-out infinite alternate;
-  z-index: 5;
+
   position: relative;
 }
 
 .inv-lace-img {
+  position: relative;
   width: 100%;
   height: 100%;
-  object-fit: contain;
+
   object-position: top center;
   display: block;
 }
@@ -361,7 +363,6 @@ a:hover {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: clamp(12px, 3vw, 22px) clamp(20px, 6vw, 40px) clamp(14px, 3vw, 24px);
   gap: 0;
   width: 100%;
   position: relative;
@@ -405,8 +406,8 @@ a:hover {
 /* ── Wax-seal logo medallion ── */
 .inv-logo-wrap {
   position: relative;
-  width: clamp(130px, 32vw, 185px);
-  height: clamp(150px, 37vw, 215px);
+  width: auto;
+  height: auto;
   margin: 4px auto 8px;
   display: flex;
   align-items: center;
@@ -539,6 +540,8 @@ a:hover {
 
 /* ── Open invitation CTA ── */
 .inv-open-cta {
+  margin-bottom: 30px;
+  margin-top: 30px;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -1502,9 +1505,11 @@ a:hover {
   border-bottom: 1.5px solid var(--c-gold);
   padding: 14px 10px;
 }
-.inv-mtitle{
-  font-size:18px;
+
+.inv-mtitle {
+  font-size: 18px;
 }
+
 .idb-month {
   font-family: Parisienne;
   font-size: clamp(2.05rem, 3.2vw, 1.3rem);
