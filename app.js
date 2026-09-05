@@ -30,11 +30,11 @@ function saveGuests(list) {
 // ── Countdown ─────────────────────────────────────────────
 function tick() {
   const target = new Date('2026-10-10T17:00:00');
-  const diff   = target - new Date();
-  const pad    = n => String(Math.max(0, n)).padStart(2, '0');
+  const diff = target - new Date();
+  const pad = n => String(Math.max(0, n)).padStart(2, '0');
 
   if (diff <= 0) {
-    ['days','hours','mins','secs'].forEach(id => {
+    ['days', 'hours', 'mins', 'secs'].forEach(id => {
       const el = document.getElementById('cd-' + id);
       if (el) el.textContent = '00';
     });
@@ -43,12 +43,12 @@ function tick() {
 
   const d = Math.floor(diff / 86400000);
   const h = Math.floor((diff % 86400000) / 3600000);
-  const m = Math.floor((diff % 3600000)  / 60000);
-  const s = Math.floor((diff % 60000)    / 1000);
+  const m = Math.floor((diff % 3600000) / 60000);
+  const s = Math.floor((diff % 60000) / 1000);
 
-  ['days','hours','mins','secs'].forEach((id, i) => {
+  ['days', 'hours', 'mins', 'secs'].forEach((id, i) => {
     const el = document.getElementById('cd-' + id);
-    if (el) el.textContent = pad([d,h,m,s][i]);
+    if (el) el.textContent = pad([d, h, m, s][i]);
   });
 }
 
@@ -61,7 +61,7 @@ function refreshCounter() {
 // ── Validation Helpers ────────────────────────────────────
 function clearError(id) {
   const field = document.getElementById(id);
-  const err   = document.getElementById('err-' + id);
+  const err = document.getElementById('err-' + id);
   if (field) {
     field.classList.remove('invalid');
     field.removeAttribute('aria-invalid');
@@ -76,7 +76,7 @@ function clearAllErrors() {
 
 function setError(id, msg) {
   const field = document.getElementById(id);
-  const err   = document.getElementById('err-' + id);
+  const err = document.getElementById('err-' + id);
   if (field) {
     field.classList.add('invalid');
     field.setAttribute('aria-invalid', 'true');
@@ -231,8 +231,8 @@ async function lookupGuestLimit(name) {
   if (!SHEET_URL || SHEET_URL === 'YOUR_APPS_SCRIPT_URL_HERE') return;
   if (!name || name.length < 2) return;
 
-  const guestsInput  = document.getElementById('guests');
-  const guestHint    = document.getElementById('guest-limit-hint');
+  const guestsInput = document.getElementById('guests');
+  const guestHint = document.getElementById('guest-limit-hint');
 
   try {
     // Build the GET URL using the same base URL (replace /exec with /exec?checkName=...)
@@ -357,10 +357,10 @@ async function sendToGoogleSheet(data) {
 
   // Use text/plain to avoid CORS preflight rejection from Google Apps Script
   await fetch(SHEET_URL, {
-    method:  'POST',
-    mode:    'no-cors',
+    method: 'POST',
+    mode: 'no-cors',
     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-    body:    JSON.stringify(data),
+    body: JSON.stringify(data),
   });
 
   return { ok: true };
@@ -379,12 +379,12 @@ async function handleSubmit(e) {
   const isUnable = get('attendance').toLowerCase().includes('unable');
 
   const data = {
-    fullName:   get('fullName'),
-    phone:      get('phone'),
+    fullName: get('fullName'),
+    phone: get('phone'),
     attendance: get('attendance'),
-    guests:     isUnable ? 0 : (parseInt(get('guests'), 10) || 1),
-    message:    get('message'),
-    timestamp:  new Date().toLocaleString('en-GB'),
+    guests: isUnable ? 0 : (parseInt(get('guests'), 10) || 1),
+    message: get('message'),
+    timestamp: new Date().toLocaleString('en-GB'),
   };
 
   // Disable button while sending
@@ -413,9 +413,9 @@ async function handleSubmit(e) {
 }
 
 function showSuccessPanel(data) {
-  const form    = document.getElementById('rsvpForm');
+  const form = document.getElementById('rsvpForm');
   const success = document.getElementById('successCard');
-  const msg     = document.getElementById('successMsg');
+  const msg = document.getElementById('successMsg');
 
   form.style.display = 'none';
 
@@ -431,13 +431,13 @@ function showSuccessPanel(data) {
 
 // ── Reset form ────────────────────────────────────────────
 function resetForm() {
-  const form    = document.getElementById('rsvpForm');
+  const form = document.getElementById('rsvpForm');
   const success = document.getElementById('successCard');
   form.reset();
   clearAllErrors();
   hideStatus();
   success.style.display = 'none';
-  form.style.display    = 'block';
+  form.style.display = 'block';
   form.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
@@ -455,44 +455,44 @@ function exportToExcel() {
     'Attendance', 'Guests (#)', 'Message', 'Submitted At'
   ];
   const rows = list.map(g => [
-    g.fullName   || '',
-    g.phone      || '',
+    g.fullName || '',
+    g.phone || '',
     g.attendance || '',
-    g.guests     || '',
-    g.message    || '',
-    g.timestamp  || '',
+    g.guests || '',
+    g.message || '',
+    g.timestamp || '',
   ]);
 
   const ws = XLSX.utils.aoa_to_sheet([headers, ...rows]);
   ws['!cols'] = [
-    {wch:26},{wch:18},{wch:34},
-    {wch:12},{wch:40},{wch:22}
+    { wch: 26 }, { wch: 18 }, { wch: 34 },
+    { wch: 12 }, { wch: 40 }, { wch: 22 }
   ];
 
   /* Summary sheet */
-  const attending     = list.filter(g => g.attendance?.toLowerCase().startsWith('yes'));
-  const notAttend     = list.filter(g => !g.attendance?.toLowerCase().startsWith('yes'));
+  const attending = list.filter(g => g.attendance?.toLowerCase().startsWith('yes'));
+  const notAttend = list.filter(g => !g.attendance?.toLowerCase().startsWith('yes'));
   const totalAttended = attending.reduce((s, g) => s + (parseInt(g.guests) || 0), 0);
-  const totalInvited  = list.reduce((s, g) => s + (parseInt(g.guests) || 0), 0);
+  const totalInvited = list.reduce((s, g) => s + (parseInt(g.guests) || 0), 0);
 
   const wsSummary = XLSX.utils.aoa_to_sheet([
     ['Jhony & Sandra Wedding — RSVP Summary'],
     [''],
-    ['Wedding Date',            'Saturday, October 10, 2025'],
-    ['Ceremony',                'Edbel Church — 5:00 PM'],
-    ['Reception',               'Glamour Garden — 7:00 PM'],
+    ['Wedding Date', 'Saturday, October 10, 2026'],
+    ['Ceremony', 'Edbel Church — 5:00 PM'],
+    ['Reception', 'Glamour Garden — 7:00 PM'],
     [''],
-    ['Total Attending Guests',  totalAttended],
-    ['Total Invited People',    totalInvited],
-    ['Total RSVP Responses',    list.length],
-    ['Not Attending Count',     notAttend.length],
+    ['Total Attending Guests', totalAttended],
+    ['Total Invited People', totalInvited],
+    ['Total RSVP Responses', list.length],
+    ['Not Attending Count', notAttend.length],
     [''],
-    ['Report Generated',        new Date().toLocaleString('en-GB')],
+    ['Report Generated', new Date().toLocaleString('en-GB')],
   ]);
-  wsSummary['!cols'] = [{wch:30},{wch:36}];
+  wsSummary['!cols'] = [{ wch: 30 }, { wch: 36 }];
 
   const wb = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(wb, ws,        'Guest List');
+  XLSX.utils.book_append_sheet(wb, ws, 'Guest List');
   XLSX.utils.book_append_sheet(wb, wsSummary, 'Summary');
   XLSX.writeFile(wb, 'Jhony_Sandra_RSVP_GuestList.xlsx');
 }
@@ -613,8 +613,8 @@ function initParallaxAndSceneNav() {
 
 // ── Romantic Wedding Background Music Controller ──────────
 function initMusic() {
-  const audio   = document.getElementById('bgAudio');
-  const btn     = document.getElementById('musicToggleBtn');
+  const audio = document.getElementById('bgAudio');
+  const btn = document.getElementById('musicToggleBtn');
   const tooltip = document.getElementById('musicTooltip');
   if (!btn || !audio) return;
 
@@ -805,19 +805,19 @@ function initBackground() {
 
   // ── Resize handler ──────────────────────────────────────
   function resize() {
-    canvas.width  = window.innerWidth;
+    canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
   }
   resize();
   window.addEventListener('resize', resize);
 
   // ── Gold palette ────────────────────────────────────────
-  const GOLD  = ['rgba(201,168,76,', 'rgba(232,208,143,', 'rgba(255,236,180,', 'rgba(180,140,50,'];
+  const GOLD = ['rgba(201,168,76,', 'rgba(232,208,143,', 'rgba(255,236,180,', 'rgba(180,140,50,'];
   function goldColor(alpha) {
     return GOLD[Math.floor(Math.random() * GOLD.length)] + alpha + ')';
   }
 
-  const rand  = (a, b) => Math.random() * (b - a) + a;
+  const rand = (a, b) => Math.random() * (b - a) + a;
   const randI = (a, b) => Math.floor(rand(a, b));
 
   // ══════════════════════════════════════════════════════
@@ -826,26 +826,26 @@ function initBackground() {
   class Particle {
     constructor() { this.reset(true); }
     reset(initial = false) {
-      this.x     = rand(0, canvas.width);
-      this.y     = initial ? rand(0, canvas.height) : canvas.height + 10;
-      this.r     = rand(0.6, 2.4);
-      this.vx    = rand(-0.3, 0.3);
-      this.vy    = rand(-0.6, -1.4);
+      this.x = rand(0, canvas.width);
+      this.y = initial ? rand(0, canvas.height) : canvas.height + 10;
+      this.r = rand(0.6, 2.4);
+      this.vx = rand(-0.3, 0.3);
+      this.vy = rand(-0.6, -1.4);
       this.alpha = 0;
-      this.maxA  = rand(0.25, 0.65);
-      this.fade  = rand(0.008, 0.02);
+      this.maxA = rand(0.25, 0.65);
+      this.fade = rand(0.008, 0.02);
       this.phase = initial ? 'hold' : 'in';
-      this.life  = rand(120, 260);
-      this.age   = 0;
+      this.life = rand(120, 260);
+      this.age = 0;
       this.color = goldColor(this.maxA);
     }
     update() {
       this.x += this.vx + Math.sin(this.age * 0.04) * 0.3;
       this.y += this.vy;
       this.age++;
-      if (this.phase === 'in')   { this.alpha = Math.min(this.alpha + this.fade, this.maxA); if (this.alpha >= this.maxA) this.phase = 'hold'; }
+      if (this.phase === 'in') { this.alpha = Math.min(this.alpha + this.fade, this.maxA); if (this.alpha >= this.maxA) this.phase = 'hold'; }
       if (this.phase === 'hold') { if (this.age > this.life) this.phase = 'out'; }
-      if (this.phase === 'out')  { this.alpha -= this.fade * 0.7; }
+      if (this.phase === 'out') { this.alpha -= this.fade * 0.7; }
       if (this.alpha <= 0 || this.y < -10) this.reset();
     }
     draw() {
@@ -862,21 +862,21 @@ function initBackground() {
   class Heart {
     constructor() { this.reset(true); }
     reset(initial = false) {
-      this.x     = rand(0, canvas.width);
-      this.y     = initial ? rand(-20, canvas.height) : rand(-60, -10);
-      this.size  = rand(6, 18);
-      this.vx    = rand(-0.4, 0.4);
-      this.vy    = rand(0.4, 1.1);
+      this.x = rand(0, canvas.width);
+      this.y = initial ? rand(-20, canvas.height) : rand(-60, -10);
+      this.size = rand(6, 18);
+      this.vx = rand(-0.4, 0.4);
+      this.vy = rand(0.4, 1.1);
       this.alpha = rand(0.08, 0.28);
-      this.rot   = rand(0, Math.PI * 2);
-      this.rotV  = rand(-0.015, 0.015);
+      this.rot = rand(0, Math.PI * 2);
+      this.rotV = rand(-0.015, 0.015);
       this.swing = rand(0, Math.PI * 2);
-      this.swingA= rand(0.3, 0.9);
+      this.swingA = rand(0.3, 0.9);
     }
     update() {
-      this.y    += this.vy;
-      this.x    += this.vx + Math.sin(this.swing) * 0.3;
-      this.rot  += this.rotV;
+      this.y += this.vy;
+      this.x += this.vx + Math.sin(this.swing) * 0.3;
+      this.rot += this.rotV;
       this.swing += 0.025;
       if (this.y > canvas.height + 30) this.reset();
     }
@@ -910,20 +910,20 @@ function initBackground() {
   class Sparkle {
     constructor() { this.reset(true); }
     reset(initial = false) {
-      this.x     = rand(0, canvas.width);
-      this.y     = initial ? rand(0, canvas.height) : rand(0, canvas.height);
-      this.size  = rand(3, 9);
+      this.x = rand(0, canvas.width);
+      this.y = initial ? rand(0, canvas.height) : rand(0, canvas.height);
+      this.size = rand(3, 9);
       this.alpha = 0;
-      this.maxA  = rand(0.15, 0.55);
+      this.maxA = rand(0.15, 0.55);
       this.speed = rand(0.012, 0.03);
       this.phase = 'in';
       this.delay = randI(0, 200);
-      this.age   = -this.delay;
+      this.age = -this.delay;
     }
     update() {
       this.age++;
       if (this.age < 0) return;
-      if (this.phase === 'in')  { this.alpha += this.speed; if (this.alpha >= this.maxA) { this.alpha = this.maxA; this.phase = 'out'; } }
+      if (this.phase === 'in') { this.alpha += this.speed; if (this.alpha >= this.maxA) { this.alpha = this.maxA; this.phase = 'out'; } }
       if (this.phase === 'out') { this.alpha -= this.speed * 0.7; if (this.alpha <= 0) this.reset(); }
     }
     draw() {
@@ -933,7 +933,7 @@ function initBackground() {
       ctx.translate(this.x, this.y);
       ctx.globalAlpha = this.alpha;
       ctx.strokeStyle = goldColor(this.alpha);
-      ctx.lineWidth   = 0.8;
+      ctx.lineWidth = 0.8;
       // 4-point star
       ctx.beginPath();
       ctx.moveTo(0, -s); ctx.lineTo(0, s);
@@ -943,7 +943,7 @@ function initBackground() {
       const d = s * 0.45;
       ctx.beginPath();
       ctx.moveTo(-d, -d); ctx.lineTo(d, d);
-      ctx.moveTo(d, -d);  ctx.lineTo(-d, d);
+      ctx.moveTo(d, -d); ctx.lineTo(-d, d);
       ctx.stroke();
       ctx.restore();
       ctx.globalAlpha = 1;
@@ -951,9 +951,9 @@ function initBackground() {
   }
 
   // ── Build pools ──────────────────────────────────────────
-  const particles = Array.from({ length: 80  }, () => new Particle());
-  const hearts    = Array.from({ length: 22  }, () => new Heart());
-  const sparkles  = Array.from({ length: 40  }, () => new Sparkle());
+  const particles = Array.from({ length: 80 }, () => new Particle());
+  const hearts = Array.from({ length: 22 }, () => new Heart());
+  const sparkles = Array.from({ length: 40 }, () => new Sparkle());
 
   // ── Render loop ──────────────────────────────────────────
   function frame() {
@@ -964,14 +964,14 @@ function initBackground() {
       canvas.width / 2, 0, 0,
       canvas.width / 2, 0, canvas.height * 0.65
     );
-    grad.addColorStop(0,   'rgba(201,168,76,0.04)');
-    grad.addColorStop(1,   'rgba(0,0,0,0)');
+    grad.addColorStop(0, 'rgba(201,168,76,0.04)');
+    grad.addColorStop(1, 'rgba(0,0,0,0)');
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     particles.forEach(p => { p.update(); p.draw(); });
-    hearts   .forEach(h => { h.update(); h.draw(); });
-    sparkles .forEach(s => { s.update(); s.draw(); });
+    hearts.forEach(h => { h.update(); h.draw(); });
+    sparkles.forEach(s => { s.update(); s.draw(); });
 
     requestAnimationFrame(frame);
   }
@@ -983,9 +983,9 @@ function initBackground() {
 // LUXURY INVITATION INTRO CONTROLLER
 // ══════════════════════════════════════════════════════════
 function initEnvelopeIntro() {
-  const overlay   = document.getElementById('envelopeIntro');
-  const openBtn   = document.getElementById('openInvitationBtn');
-  const skipBtn   = document.getElementById('skipIntroBtn');
+  const overlay = document.getElementById('envelopeIntro');
+  const openBtn = document.getElementById('openInvitationBtn');
+  const skipBtn = document.getElementById('skipIntroBtn');
   const outerCard = document.getElementById('envelopeBox');
   const sparkleFd = document.getElementById('envSparkleField');
   if (!overlay) return;
@@ -1018,9 +1018,9 @@ function initEnvelopeIntro() {
     opened = true;
 
     // Start background music on user's tap
-    const audio    = document.getElementById('bgAudio');
+    const audio = document.getElementById('bgAudio');
     const musicBtn = document.getElementById('musicToggleBtn');
-    const tooltip  = document.getElementById('musicTooltip');
+    const tooltip = document.getElementById('musicTooltip');
     if (tooltip) tooltip.style.opacity = '0';
     if (audio) {
       audio.volume = 0.55;
@@ -1036,7 +1036,7 @@ function initEnvelopeIntro() {
 
     // Ensure background video plays smoothly
     const bgVid = document.getElementById('mainBgVideo');
-    if (bgVid) bgVid.play().catch(() => {});
+    if (bgVid) bgVid.play().catch(() => { });
 
     // Fade out the whole overlay
     setTimeout(() => {
@@ -1059,15 +1059,15 @@ function initEnvelopeIntro() {
     overlay.classList.add('is-opened');
 
     const bgVid = document.getElementById('mainBgVideo');
-    if (bgVid) bgVid.play().catch(() => {});
+    if (bgVid) bgVid.play().catch(() => { });
 
-    const audio    = document.getElementById('bgAudio');
+    const audio = document.getElementById('bgAudio');
     const musicBtn = document.getElementById('musicToggleBtn');
     if (audio) {
       audio.volume = 0.55;
       audio.play().then(() => {
         if (musicBtn) musicBtn.classList.add('playing');
-      }).catch(() => {});
+      }).catch(() => { });
     }
 
     setTimeout(() => {
@@ -1077,8 +1077,8 @@ function initEnvelopeIntro() {
     }, 900);
   }
 
-  if (openBtn)   openBtn.addEventListener('click', openEnvelope);
-  if (skipBtn)   skipBtn.addEventListener('click', skipIntro);
+  if (openBtn) openBtn.addEventListener('click', openEnvelope);
+  if (skipBtn) skipBtn.addEventListener('click', skipIntro);
   // Clicking anywhere on the outer card also opens
   if (outerCard) outerCard.addEventListener('click', openEnvelope);
 }

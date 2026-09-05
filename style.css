@@ -291,8 +291,8 @@ a:hover {
   position: relative;
   z-index: 3;
 
- 
- 
+
+
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -790,13 +790,6 @@ a:hover {
 
   /* SOLID warm parchment — covers the section beneath it */
   background: #F4EFE4;
-
-  /* Top edge lift shadow — gives the "paper lifted" feel */
-  box-shadow:
-    0 -6px 0 0 rgba(180, 154, 108, 0.25),
-    0 -20px 40px rgba(43, 33, 27, 0.18),
-    0 -2px 0 0 rgba(232, 220, 200, 0.9);
-
   border: none;
   border-radius: 0;
   outline: none;
@@ -804,12 +797,36 @@ a:hover {
 }
 
 /* Scene 1 — bottom of the stack, exposed first */
-#couple-photo   { z-index: 10; background: transparent; box-shadow: none; }
-#invitation     { z-index: 20; background: #F7F3EA; }
-#save-the-date  { z-index: 30; background: #F5F0E6; }
-#program        { z-index: 40; background: #F3EEE3; }
-#rsvp           { z-index: 50; background: #F1ECE1; }
-#footer         { z-index: 60; background: #EDE8DC; }
+#couple-photo {
+  z-index: 10;
+  background: transparent;
+  box-shadow: none;
+}
+
+#invitation {
+  z-index: 20;
+  background: #F7F3EA;
+}
+
+#save-the-date {
+  z-index: 30;
+  background: #F5F0E6;
+}
+
+#program {
+  z-index: 40;
+  background: #F3EEE3;
+}
+
+#rsvp {
+  z-index: 50;
+  background: #F1ECE1;
+}
+
+#footer {
+  z-index: 60;
+  background: #EDE8DC;
+}
 
 /* paper-sheet sections: vertical layout (photo on top, content below) */
 .fs-section.paper-sheet {
@@ -885,32 +902,28 @@ a:hover {
   margin: 0 auto;
 
   /* Subtle, natural gradient tonal transition along edges */
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgba(0, 0, 0, 0.15) 3%,
-    rgba(0, 0, 0, 0.7) 8%,
-    rgba(0, 0, 0, 0.95) 13%,
-    black 18%,
-    black 82%,
-    rgba(0, 0, 0, 0.95) 87%,
-    rgba(0, 0, 0, 0.7) 92%,
-    rgba(0, 0, 0, 0.15) 97%,
-    transparent 100%
-  );
-  mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgba(0, 0, 0, 0.15) 3%,
-    rgba(0, 0, 0, 0.7) 8%,
-    rgba(0, 0, 0, 0.95) 13%,
-    black 18%,
-    black 82%,
-    rgba(0, 0, 0, 0.95) 87%,
-    rgba(0, 0, 0, 0.7) 92%,
-    rgba(0, 0, 0, 0.15) 97%,
-    transparent 100%
-  );
+  -webkit-mask-image: linear-gradient(to bottom,
+      transparent 0%,
+      rgba(0, 0, 0, 0.15) 3%,
+      rgba(0, 0, 0, 0.7) 8%,
+      rgba(0, 0, 0, 0.95) 13%,
+      black 18%,
+      black 82%,
+      rgba(0, 0, 0, 0.95) 87%,
+      rgba(0, 0, 0, 0.7) 92%,
+      rgba(0, 0, 0, 0.15) 97%,
+      transparent 100%);
+  mask-image: linear-gradient(to bottom,
+      transparent 0%,
+      rgba(0, 0, 0, 0.15) 3%,
+      rgba(0, 0, 0, 0.7) 8%,
+      rgba(0, 0, 0, 0.95) 13%,
+      black 18%,
+      black 82%,
+      rgba(0, 0, 0, 0.95) 87%,
+      rgba(0, 0, 0, 0.7) 92%,
+      rgba(0, 0, 0, 0.15) 97%,
+      transparent 100%);
 }
 
 .cpf-border-inner,
@@ -971,9 +984,12 @@ a:hover {
 }
 
 @keyframes promptFloat {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(6px);
   }
@@ -1023,14 +1039,12 @@ a:hover {
 .section-photo-fade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to bottom,
-    transparent 0%,
-    transparent 55%,
-    rgba(245, 240, 230, 0.55) 75%,
-    rgba(245, 240, 230, 0.92) 90%,
-    #F4EFE4 100%
-  );
+  background: linear-gradient(to bottom,
+      transparent 0%,
+      transparent 55%,
+      rgba(245, 240, 230, 0.55) 75%,
+      rgba(245, 240, 230, 0.92) 90%,
+      #F4EFE4 100%);
   pointer-events: none;
   z-index: 2;
 }
@@ -1068,70 +1082,58 @@ a:hover {
   transition: transform 0.1s linear, opacity 0.4s ease;
 
   /* Seamless vertical gradient mask: fades to 0 at top and bottom so no divider appears */
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgba(0, 0, 0, 0.4) 10%,
-    rgba(0, 0, 0, 0.9) 24%,
-    rgba(0, 0, 0, 1) 45%,
-    rgba(0, 0, 0, 1) 55%,
-    rgba(0, 0, 0, 0.9) 76%,
-    rgba(0, 0, 0, 0.4) 90%,
-    transparent 100%
-  );
-  mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgba(0, 0, 0, 0.4) 10%,
-    rgba(0, 0, 0, 0.9) 24%,
-    rgba(0, 0, 0, 1) 45%,
-    rgba(0, 0, 0, 1) 55%,
-    rgba(0, 0, 0, 0.9) 76%,
-    rgba(0, 0, 0, 0.4) 90%,
-    transparent 100%
-  );
+  -webkit-mask-image: linear-gradient(to bottom,
+      transparent 0%,
+      rgba(0, 0, 0, 0.4) 10%,
+      rgba(0, 0, 0, 0.9) 24%,
+      rgba(0, 0, 0, 1) 45%,
+      rgba(0, 0, 0, 1) 55%,
+      rgba(0, 0, 0, 0.9) 76%,
+      rgba(0, 0, 0, 0.4) 90%,
+      transparent 100%);
+  mask-image: linear-gradient(to bottom,
+      transparent 0%,
+      rgba(0, 0, 0, 0.4) 10%,
+      rgba(0, 0, 0, 0.9) 24%,
+      rgba(0, 0, 0, 1) 45%,
+      rgba(0, 0, 0, 1) 55%,
+      rgba(0, 0, 0, 0.9) 76%,
+      rgba(0, 0, 0, 0.4) 90%,
+      transparent 100%);
 }
 
 /* Smooth gradient entrance for Save The Date section */
 #save-the-date .fs-bg {
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgba(0, 0, 0, 0.4) 10%,
-    rgba(0, 0, 0, 0.95) 26%,
-    rgba(0, 0, 0, 1) 50%,
-    rgba(0, 0, 0, 0.95) 74%,
-    rgba(0, 0, 0, 0.4) 90%,
-    transparent 100%
-  );
-  mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgba(0, 0, 0, 0.4) 10%,
-    rgba(0, 0, 0, 0.95) 26%,
-    rgba(0, 0, 0, 1) 50%,
-    rgba(0, 0, 0, 0.95) 74%,
-    rgba(0, 0, 0, 0.4) 90%,
-    transparent 100%
-  );
+  -webkit-mask-image: linear-gradient(to bottom,
+      transparent 0%,
+      rgba(0, 0, 0, 0.4) 10%,
+      rgba(0, 0, 0, 0.95) 26%,
+      rgba(0, 0, 0, 1) 50%,
+      rgba(0, 0, 0, 0.95) 74%,
+      rgba(0, 0, 0, 0.4) 90%,
+      transparent 100%);
+  mask-image: linear-gradient(to bottom,
+      transparent 0%,
+      rgba(0, 0, 0, 0.4) 10%,
+      rgba(0, 0, 0, 0.95) 26%,
+      rgba(0, 0, 0, 1) 50%,
+      rgba(0, 0, 0, 0.95) 74%,
+      rgba(0, 0, 0, 0.4) 90%,
+      transparent 100%);
 }
 
 /* Smooth bottom closure for Footer */
 #footer .fs-bg {
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgba(0, 0, 0, 0.6) 18%,
-    rgba(0, 0, 0, 1) 40%,
-    rgba(0, 0, 0, 0.95) 100%
-  );
-  mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgba(0, 0, 0, 0.6) 18%,
-    rgba(0, 0, 0, 1) 40%,
-    rgba(0, 0, 0, 0.95) 100%
-  );
+  -webkit-mask-image: linear-gradient(to bottom,
+      transparent 0%,
+      rgba(0, 0, 0, 0.6) 18%,
+      rgba(0, 0, 0, 1) 40%,
+      rgba(0, 0, 0, 0.95) 100%);
+  mask-image: linear-gradient(to bottom,
+      transparent 0%,
+      rgba(0, 0, 0, 0.6) 18%,
+      rgba(0, 0, 0, 1) 40%,
+      rgba(0, 0, 0, 0.95) 100%);
 }
 
 /* Refined Ivory & Champagne atmospheric radial overlays with seamless edge fade */
@@ -1140,24 +1142,20 @@ a:hover {
   inset: 0;
   pointer-events: none;
   z-index: 2;
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgba(0, 0, 0, 0.7) 12%,
-    rgba(0, 0, 0, 1) 25%,
-    rgba(0, 0, 0, 1) 75%,
-    rgba(0, 0, 0, 0.7) 88%,
-    transparent 100%
-  );
-  mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgba(0, 0, 0, 0.7) 12%,
-    rgba(0, 0, 0, 1) 25%,
-    rgba(0, 0, 0, 1) 75%,
-    rgba(0, 0, 0, 0.7) 88%,
-    transparent 100%
-  );
+  -webkit-mask-image: linear-gradient(to bottom,
+      transparent 0%,
+      rgba(0, 0, 0, 0.7) 12%,
+      rgba(0, 0, 0, 1) 25%,
+      rgba(0, 0, 0, 1) 75%,
+      rgba(0, 0, 0, 0.7) 88%,
+      transparent 100%);
+  mask-image: linear-gradient(to bottom,
+      transparent 0%,
+      rgba(0, 0, 0, 0.7) 12%,
+      rgba(0, 0, 0, 1) 25%,
+      rgba(0, 0, 0, 1) 75%,
+      rgba(0, 0, 0, 0.7) 88%,
+      transparent 100%);
 }
 
 .fs-overlay-dark {
