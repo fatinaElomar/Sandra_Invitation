@@ -102,7 +102,7 @@ button:focus-visible,
 a:focus-visible {
   outline: none !important;
   border-color: var(--c-gold) !important;
-  box-shadow: 0 0 14px rgba(180, 154, 108, 0.35) !important;
+
 }
 
 a {
@@ -283,7 +283,7 @@ a:hover {
   background: linear-gradient(165deg, #e6dac9 0%, #cfc4ae 100%);
   clip-path: polygon(0 0, 100% 0, 50% 100%);
   border-top: 1.5px solid rgba(180, 154, 108, 0.5);
-  box-shadow: inset 0 -6px 16px rgba(43, 33, 27, 0.08);
+
 }
 
 /* ── Main cream invitation card ── */
@@ -673,7 +673,7 @@ a:hover {
 }
 
 .dot-disc {
-  display:none;
+  display: none;
   width: 9px;
   height: 9px;
   border-radius: 50%;
@@ -713,7 +713,7 @@ a:hover {
   background: var(--c-espresso);
   border-color: var(--c-gold);
   transform: scale(1.45);
-  box-shadow: 0 0 10px rgba(180, 154, 108, 0.6);
+
 }
 
 @media (max-width: 600px) {
@@ -780,7 +780,7 @@ a:hover {
 
 /* ── Base sticky paper sheet ── */
 .fs-section {
-  position: sticky;
+
   top: 0;
   min-height: 100vh;
   width: 100%;
@@ -855,6 +855,7 @@ a:hover {
 }
 
 .couple-photo-wrapper {
+  padding: 55px 0 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1332,11 +1333,7 @@ a:hover {
   height: 8px;
   border-radius: 50%;
   background: #fff8dc;
-  box-shadow:
-    0 0 10px #ffeaa5,
-    0 0 18px rgba(180, 154, 108, 0.6),
-    0 0 28px rgba(180, 154, 108, 0.4);
-  animation: fairyFlicker 3.5s ease-in-out infinite alternate;
+
 }
 
 .fairy-bulb.b2 {
@@ -1389,6 +1386,26 @@ a:hover {
     transform: scale(1.18);
     filter: brightness(1.2);
   }
+}
+
+.wedooo-1 {
+  background: linear-gradient(
+    262deg,
+    rgba(214, 200, 174, 0.28),
+    rgba(247, 243, 234, 0.42),
+    rgba(247, 243, 234, 0.30),
+    rgba(253, 242, 242, 0.34),
+    rgba(128, 93, 42, 0.18)
+  );
+
+  backdrop-filter: blur(18px) saturate(115%);
+  -webkit-backdrop-filter: blur(18px) saturate(115%);
+
+  border: 1px solid rgba(255, 255, 255, 0.45);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.65),
+    inset 0 -1px 0 rgba(128, 93, 42, 0.08);
 }
 
 /* "We Do" Lockup */
@@ -1676,7 +1693,6 @@ a:hover {
 .inv-cta:hover {
   transform: translateY(-2px);
   background: var(--c-dark-brown);
-  box-shadow: 0 12px 30px rgba(43, 33, 27, 0.35);
   color: #ffffff;
 }
 
@@ -1880,9 +1896,8 @@ a:hover {
   background: rgba(232, 220, 200, 0.85);
   /* Soft Champagne */
   backdrop-filter: blur(14px);
-  border-radius: 20px;
+  border-radius: 2px;
   border: 1px solid var(--c-gold);
-  box-shadow: 0 16px 45px rgba(43, 33, 27, 0.1);
 }
 
 /* Vertical Spine */
@@ -1958,7 +1973,6 @@ a:hover {
   height: 10px;
   border-radius: 50%;
   background: var(--c-gold);
-  box-shadow: 0 0 0 3px var(--c-ivory);
 }
 
 .prog-time {
@@ -2121,7 +2135,6 @@ a:hover {
   letter-spacing: 0.2em;
   text-decoration: none;
   font-weight: 600;
-  box-shadow: 0 8px 24px rgba(43, 33, 27, 0.25);
   transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
 }
 
@@ -2363,7 +2376,7 @@ textarea {
   background: var(--c-espresso);
   /* Strong contrast */
   color: var(--c-ivory);
-  box-shadow: 0 8px 24px rgba(43, 33, 27, 0.25);
+
   transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
   text-transform: uppercase;
 }
@@ -2772,13 +2785,6 @@ textarea {
 
 @media (max-width: 600px) {
 
-  #save-the-date.paper-sheet,
-  #program.paper-sheet,
-  #rsvp.paper-sheet,
-  #footer.paper-sheet {
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-  }
 
   .paper-top-edge {
     top: 12px;
@@ -2803,7 +2809,7 @@ textarea {
     position: relative !important;
     top: auto !important;
     transform: none !important;
-    box-shadow: none !important;
+
     border-radius: 0 !important;
   }
 
