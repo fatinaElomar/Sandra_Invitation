@@ -31,7 +31,7 @@
   --espresso-dim: rgba(43, 33, 27, 0.4);
 
   /* Component Layout Tokens */
-  --border-radius: 16px;
+  --border-radius: 2px;
   --card-shadow: 0 20px 60px rgba(43, 33, 27, 0.12), 0 0 35px rgba(180, 154, 108, 0.14);
   --t: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 
@@ -464,7 +464,7 @@ a:hover {
   font-family: var(--f-script);
   font-size: clamp(2.4rem, 8vw, 3.6rem);
   color: var(--c-dark-brown);
-  line-height: 1.05;
+
   font-weight: 400;
   margin: 0;
   /* Subtle shimmer sweep */
@@ -827,12 +827,6 @@ a:hover {
 #footer {
   z-index: 60;
   background: #EDE8DC;
-}
-
-/* paper-sheet sections: vertical layout (photo on top, content below) */
-.fs-section.paper-sheet {
-  justify-content: flex-start;
-  padding: 0;
 }
 
 /* Paper top-edge ornament — repurposed as the card lift indicator */
@@ -1389,17 +1383,15 @@ a:hover {
 }
 
 .wedooo-1 {
-  background: linear-gradient(
-    262deg,
-    rgba(214, 200, 174, 0.28),
-    rgba(247, 243, 234, 0.42),
-    rgba(247, 243, 234, 0.30),
-    rgba(253, 242, 242, 0.34),
-    rgba(128, 93, 42, 0.18)
-  );
+  background: linear-gradient(262deg,
+      rgba(214, 200, 174, 0.28),
+      rgba(247, 243, 234, 0.42),
+      rgba(247, 243, 234, 0.30),
+      rgba(253, 242, 242, 0.34),
+      rgba(128, 93, 42, 0.18));
 
-  backdrop-filter: blur(18px) saturate(115%);
-  -webkit-backdrop-filter: blur(18px) saturate(115%);
+  backdrop-filter: blur(4px) saturate(115%);
+  -webkit-backdrop-filter: blur(4px) saturate(115%);
 
   border: 1px solid rgba(255, 255, 255, 0.45);
 
@@ -1460,7 +1452,7 @@ a:hover {
   font-family: var(--f-caps);
   font-size: clamp(0.68rem, 2vw, 0.8rem);
   letter-spacing: 0.28em;
-  color: var(--c-taupe);
+  color: white;
   margin-bottom: 12px;
   font-weight: 600;
   text-transform: uppercase;
@@ -1496,7 +1488,7 @@ a:hover {
   font-size: clamp(0.62rem, 1.8vw, 0.74rem);
   letter-spacing: 0.24em;
   line-height: 1.75;
-  color: var(--c-taupe);
+  color: white;
   margin-bottom: 24px;
   text-transform: uppercase;
 }
@@ -1510,15 +1502,17 @@ a:hover {
   border-bottom: 1.5px solid var(--c-gold);
   padding: 14px 10px;
 }
-
+.inv-mtitle{
+  font-size:18px;
+}
 .idb-month {
-  font-family: var(--f-bodoni);
-  font-size: clamp(1.05rem, 3.2vw, 1.3rem);
-  letter-spacing: 0.35em;
+  font-family: Parisienne;
+  font-size: clamp(2.05rem, 3.2vw, 1.3rem);
+
   color: var(--c-dark-brown);
   font-weight: 500;
   margin-bottom: 8px;
-  text-transform: uppercase;
+
 }
 
 .idb-middle-row {
@@ -1576,7 +1570,7 @@ a:hover {
   font-family: var(--f-caps);
   font-size: clamp(0.66rem, 1.9vw, 0.78rem);
   letter-spacing: 0.24em;
-  color: var(--c-taupe);
+  color: white;
   margin-bottom: 20px;
   font-weight: 600;
   text-transform: uppercase;
@@ -1604,7 +1598,7 @@ a:hover {
   font-size: 0.65rem;
   letter-spacing: 0.14em;
   color: var(--c-dark-brown);
-  margin-bottom: 24px;
+  margin: 24px;
 }
 
 .iw-icon {
@@ -2211,7 +2205,6 @@ a:hover {
   border: 1px solid var(--c-gold);
   border-radius: var(--border-radius);
   padding: clamp(24px, 5vw, 40px);
-  box-shadow: 0 16px 45px rgba(43, 33, 27, 0.1);
   margin-bottom: 24px;
   text-align: left;
 }
@@ -2260,7 +2253,7 @@ textarea {
   background: var(--c-ivory);
   /* Warm Ivory */
   border: 1px solid var(--c-taupe);
-  border-radius: 8px;
+  border-radius: 2px;
   padding: 12px 16px;
   color: var(--c-dark-brown);
   font-family: var(--f-body);
@@ -2304,7 +2297,7 @@ textarea {
   width: 100%;
   background: var(--c-ivory);
   border: 1px solid var(--c-taupe);
-  border-radius: 8px;
+  border-radius: 2px;
   padding: 12px 36px 12px 16px;
   color: var(--c-dark-brown);
   font-family: var(--f-body);

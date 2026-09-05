@@ -95,7 +95,7 @@
             <img src="image/intro logo.png" alt="Jhony &amp; Sandra Monogram Seal" class="inv-logo-img" />
           </div>
 
-          
+
 
           <!-- Gold divider bottom -->
           <div class="inv-gold-divider" aria-hidden="true">
@@ -200,11 +200,79 @@
       <div class="couple-photo-wrapper">
 
         <div class="couple-photo-heading type-reveal reveal-fade-up">
-          <span class="cph-tag">✦ TOGETHER WITH LOVE ✦</span>
+      <!-- ARABIC MESSAGE -->
+<h1
+  class="inv-names inv-mtitle"
+  id="invNames"
+  style="
+    animation: arabicReveal 1.8s cubic-bezier(.22,1,.36,1) forwards;
+    opacity: 0;
+    transform: translateY(22px);
+  "
+>
+  بكل حب، ندعوكم لمشاركتنا أجمل لحظات حياتنا
+  <br>
+  والاحتفال معنا بيوم زفافنا
+</h1>
 
-         <!-- Names in script -->
-          <h1 class="inv-names" id="invNames">Jhony &amp; Sandra</h1>
-        </div>
+
+<!-- COUPLE NAMES -->
+<h1
+  class="inv-names"
+  id="invCoupleNames"
+  style="
+    animation: namesReveal 2s cubic-bezier(.22,1,.36,1) 0.8s forwards;
+    opacity: 0;
+    transform: translateY(20px) scale(.96);
+    letter-spacing: 0;
+  "
+>
+  Jhony &amp; Sandra
+</h1>
+
+
+<style>
+  /* Arabic message */
+  @keyframes arabicReveal {
+    0% {
+      opacity: 0;
+      transform: translateY(22px);
+      filter: blur(5px);
+    }
+
+    60% {
+      opacity: 1;
+      filter: blur(0);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+    }
+  }
+
+
+  /* Names */
+  @keyframes namesReveal {
+    0% {
+      opacity: 0;
+      transform: translateY(20px) scale(.96);
+      letter-spacing: 0;
+    }
+
+    60% {
+      opacity: 1;
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      letter-spacing: .04em;
+    }
+  }
+</style>
+         
 
         <!-- PHOTO ABOVE EVERYTHING -->
         <div class="couple-portrait-frame type-reveal reveal-zoom">
@@ -289,15 +357,7 @@
         </p>
 
 
-        <!-- NAMES -->
-        <h1 class="inv-couple-names type-reveal reveal-progressive" data-delay="400">
-          <span class="ic-name">JHONY</span>
-
-          <span class="ic-amp">and</span>
-
-          <span class="ic-name">SANDRA</span>
-        </h1>
-
+       
 
         <!-- INVITATION TEXT -->
         <p class="inv-action-sub type-reveal reveal-fade-up" data-delay="600">
@@ -309,7 +369,7 @@
         <!-- DATE -->
         <div class="inv-date-box type-reveal reveal-zoom" data-delay="800">
 
-          <div class="idb-month">OCTOBER</div>
+          <div class="idb-month">October</div>
 
           <div class="idb-middle-row">
 
@@ -346,64 +406,11 @@
         </p>
 
 
-        <!-- ARABIC MESSAGE -->
-        <p class="arabic-blessing inv-arabic type-reveal reveal-fade-up" data-delay="1100" dir="rtl">
-          بكل حب، ندعوكم لمشاركتنا أجمل لحظات حياتنا
-          <br>
-          والاحتفال معنا بيوم زفافنا
-        </p>
 
 
-        <!-- WISH MONEY -->
-        <div class="inv-whish-badge type-reveal reveal-fade-up" data-delay="1200">
-          <span class="iw-icon">♥</span>
-
-          <div class="iw-content">
-            <span class="iw-label">Whish Money</span>
-            <strong class="iw-num">76 148 953</strong>
-          </div>
-        </div>
 
 
-        <!-- COUNTDOWN -->
-        <div class="countdown-wrap inv-countdown type-reveal reveal-fade-up" data-delay="1300">
 
-          <p class="countdown-label">
-            COUNTING DOWN TO OUR BIG DAY
-          </p>
-
-          <div class="countdown" id="countdown">
-
-            <div class="cd-cell">
-              <span id="cd-days">00</span>
-              <small>Days</small>
-            </div>
-
-            <div class="cd-cell">
-              <span id="cd-hours">00</span>
-              <small>Hours</small>
-            </div>
-
-            <div class="cd-cell">
-              <span id="cd-mins">00</span>
-              <small>Minutes</small>
-            </div>
-
-            <div class="cd-cell">
-              <span id="cd-secs">00</span>
-              <small>Seconds</small>
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <!-- RSVP -->
-        <a href="#rsvp" class="rsvp-cta inv-cta type-reveal reveal-fade-up" data-delay="1400" id="rsvp-cta">
-          <span>RSVP Now</span>
-          <span>♥</span>
-        </a>
 
 
         <!-- BOTTOM ORNAMENT -->
@@ -865,6 +872,47 @@
         <p class="footer-names shimmer-gold type-reveal reveal-progressive">Jhony &amp; Sandra</p>
         <p class="footer-date type-reveal reveal-fade-up" data-delay="200">Saturday · October 10<sup>th</sup> · 2026</p>
         <p class="footer-love type-reveal reveal-fade-up" data-delay="400">With All Our Love ♥ Forever &amp; Always</p>
+        <!-- WISH MONEY -->
+        <div class="inv-whish-badge type-reveal reveal-fade-up" data-delay="1200">
+          <span class="iw-icon">♥</span>
+
+          <div class="iw-content">
+            <span class="iw-label">Whish Money</span>
+            <strong class="iw-num">76 148 953</strong>
+          </div>
+        </div>
+      </div>
+      <!-- COUNTDOWN -->
+      <div class="countdown-wrap inv-countdown type-reveal reveal-fade-up" data-delay="1300">
+
+        <p class="countdown-label">
+          COUNTING DOWN TO OUR BIG DAY
+        </p>
+
+        <div class="countdown" id="countdown">
+
+          <div class="cd-cell">
+            <span id="cd-days">00</span>
+            <small>Days</small>
+          </div>
+
+          <div class="cd-cell">
+            <span id="cd-hours">00</span>
+            <small>Hours</small>
+          </div>
+
+          <div class="cd-cell">
+            <span id="cd-mins">00</span>
+            <small>Minutes</small>
+          </div>
+
+          <div class="cd-cell">
+            <span id="cd-secs">00</span>
+            <small>Seconds</small>
+          </div>
+
+        </div>
+
       </div>
     </footer>
 
