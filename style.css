@@ -673,6 +673,7 @@ a:hover {
 }
 
 .dot-disc {
+  display:none;
   width: 9px;
   height: 9px;
   border-radius: 50%;
