@@ -345,7 +345,7 @@
             <div class="idb-divider-line"></div>
 
             <div class="idb-col idb-daynum">
-              10
+              20
             </div>
 
             <div class="idb-divider-line"></div>
@@ -445,14 +445,7 @@
             <div class="cal-d">7</div>
             <div class="cal-d">8</div>
             <div class="cal-d">9</div>
-            <div class="cal-d wedding" aria-label="Wedding day, October 10">
-              <svg class="cal-heart-svg" viewBox="0 0 32 32" aria-hidden="true">
-                <path
-                  d="M16 28 C16 28 3 19.5 3 11 C3 6.5 6.8 3 11.2 3 C14 3 16 4.8 16 4.8 C16 4.8 18 3 20.8 3 C25.2 3 29 6.5 29 11 C29 19.5 16 28 16 28 Z"
-                  fill="rgba(201,168,76,0.15)" stroke="var(--gold)" stroke-width="1.8" stroke-linejoin="round" />
-              </svg>
-              <span class="cal-num">10</span>
-            </div>
+            <div class="cal-d">10</div>
             <div class="cal-d">11</div>
             <div class="cal-d">12</div>
             <div class="cal-d">13</div>
@@ -462,7 +455,14 @@
             <div class="cal-d">17</div>
             <div class="cal-d">18</div>
             <div class="cal-d">19</div>
-            <div class="cal-d">20</div>
+            <div class="cal-d wedding" aria-label="Wedding day, October 10">
+              <svg class="cal-heart-svg" viewBox="0 0 32 32" aria-hidden="true">
+                <path
+                  d="M16 28 C16 28 3 19.5 3 11 C3 6.5 6.8 3 11.2 3 C14 3 16 4.8 16 4.8 C16 4.8 18 3 20.8 3 C25.2 3 29 6.5 29 11 C29 19.5 16 28 16 28 Z"
+                  fill="rgba(201,168,76,0.15)" stroke="var(--gold)" stroke-width="1.8" stroke-linejoin="round" />
+              </svg>
+              <span class="cal-num">20</span>
+            </div>
             <div class="cal-d">21</div>
             <div class="cal-d">22</div>
             <div class="cal-d">23</div>
@@ -516,7 +516,7 @@
 
             <div class="prog-row row-left type-reveal reveal-fade-up" data-delay="200">
               <div class="prog-col prog-text-col">
-                <span class="prog-time">2:30 PM</span>
+                <span class="prog-time">3:00 PM</span>
                 <div class="prog-hearts-divider" aria-hidden="true">
                   <span class="phd-line"></span>
                   <svg class="phd-heart" viewBox="0 0 24 24" fill="none" stroke="#111111" stroke-width="2.2">
@@ -727,8 +727,8 @@
                 <div class="rhm-row">VP</div>
               </div>
 
-              <p class="rsvp-hero-date type-reveal reveal-progressive" data-delay="400">BY SEPTEMBER 25</p>
-             
+              <p class="rsvp-hero-date type-reveal reveal-progressive" data-delay="400">BY SEPTEMBER 20</p>
+
 
               <div class="rsvp-hero-actions type-reveal reveal-fade-up" data-delay="650">
                 <a href="#rsvpForm" class="rsvp-hero-btn" id="openRsvpFormBtn">
@@ -773,19 +773,31 @@
                 <div class="select-wrap">
                   <select id="attendance" name="attendance" required>
                     <option value="" disabled selected>Select…</option>
-                    <option value="Yes, I will attend">Yes, I will attend</option>
-                    <option value="Unable to attend">Unable to attend</option>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
                   </select>
                   <span class="select-arrow">▾</span>
                 </div>
                 <span class="f-err" id="err-attendance"></span>
               </div>
               <div class="f-group">
-                <label for="guests">Number of Guests <span class="req">*</span></label>
-                <input type="number" id="guests" name="guests" placeholder="1" min="1" max="2" required />
+                <label for="guests">
+                  Number of Guests <span class="req">*</span>
+                </label>
+
+                <input type="text" id="guests" name="guests" value="2" readonly style="
+      width:100%;
+      box-sizing:border-box;
+      cursor:default;
+      color:#3A2117;
+      background:#f8f3ed;
+      text-align:center;
+      font-weight:600;
+    " />
+
                 <span class="f-err" id="err-guests"></span>
-                <span class="guest-limit-hint" id="guest-limit-hint" style="display:none;"></span>
               </div>
+
             </div>
 
             <div class="f-group f-full">
@@ -1052,7 +1064,7 @@
 
     <!-- RSVP Verification Modal removed -->
 
-   
+
     <div class="music-widget" id="musicWidget">
       <div class="music-tooltip" id="musicTooltip">
         <span class="mt-note">♫</span>

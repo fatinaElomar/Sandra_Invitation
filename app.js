@@ -30,12 +30,10 @@ function saveGuests(list) {
 // ── Countdown ─────────────────────────────────────────────
 // ─────────────────────────────────────────────────────────
 // LUXURY WEDDING COUNTDOWN
-// Wedding: October 10, 2026 — 5:00 PM
-// ─────────────────────────────────────────────────────────
-
 function tick() {
 
-  const target = new Date('2026-10-10T17:00:00').getTime();
+  // Wedding date: October 20, 2026 at 5:00 PM
+  const target = new Date('2026-10-20T17:00:00').getTime();
   const now = Date.now();
   const diff = target - now;
 
@@ -44,12 +42,10 @@ function tick() {
   const minsEl = document.getElementById('cd-mins');
   const secsEl = document.getElementById('cd-secs');
 
-  // Countdown isn't on the current page
   if (!daysEl || !hoursEl || !minsEl || !secsEl) {
     return;
   }
 
-  // Wedding date has arrived
   if (diff <= 0) {
     daysEl.textContent = '00';
     hoursEl.textContent = '00';
@@ -78,10 +74,8 @@ function tick() {
   secsEl.textContent = String(seconds).padStart(2, '0');
 }
 
-
-// Run immediately
+// Start countdown immediately
 tick();
-
 
 // Update every second
 setInterval(tick, 1000);
@@ -166,28 +160,16 @@ function validateField(id) {
   }
 
   if (id === 'guests') {
-    const att = document.getElementById('attendance')?.value || '';
-    const isUnable = att.toLowerCase().includes('unable');
-    if (isUnable) {
-      clearError('guests');
-      return true;
+    const guests = document.getElementById('guests');
+
+    if (guests) {
+      guests.value = '2';
     }
-    const num = parseInt(val, 10);
-    if (!val || isNaN(num)) {
-      setError('guests', 'Number of guests is required.');
-      return false;
-    }
-    if (num < 1) {
-      setError('guests', 'Minimum is 1 guest.');
-      return false;
-    }
-    if (num > allowedGuestsForName) {
-      setError('guests', `Maximum is ${allowedGuestsForName} guest(s) for your invitation.`);
-      return false;
-    }
+
     clearError('guests');
     return true;
   }
+
 
   if (id === 'message') {
     if (val.length > 500) {
