@@ -28,61 +28,63 @@ function saveGuests(list) {
 }
 
 // ── Countdown ─────────────────────────────────────────────
-// ── Luxury Wedding Countdown ─────────────────────────────
-(function () {
+// ─────────────────────────────────────────────────────────
+// LUXURY WEDDING COUNTDOWN
+// Wedding: October 10, 2026 — 5:00 PM
+// ─────────────────────────────────────────────────────────
+
+function tick() {
 
   const target = new Date('2026-10-10T17:00:00').getTime();
+  const now = Date.now();
+  const diff = target - now;
 
-  function tick() {
+  const daysEl = document.getElementById('cd-days');
+  const hoursEl = document.getElementById('cd-hours');
+  const minsEl = document.getElementById('cd-mins');
+  const secsEl = document.getElementById('cd-secs');
 
-    const now = Date.now();
-    const diff = target - now;
-
-    const daysEl = document.getElementById('cd-days');
-    const hoursEl = document.getElementById('cd-hours');
-    const minsEl = document.getElementById('cd-mins');
-    const secsEl = document.getElementById('cd-secs');
-
-    // Make sure the countdown exists before continuing
-    if (!daysEl || !hoursEl || !minsEl || !secsEl) {
-      return;
-    }
-
-    if (diff <= 0) {
-      daysEl.textContent = '00';
-      hoursEl.textContent = '00';
-      minsEl.textContent = '00';
-      secsEl.textContent = '00';
-      return;
-    }
-
-    const days = Math.floor(diff / 86400000);
-
-    const hours = Math.floor(
-      (diff % 86400000) / 3600000
-    );
-
-    const minutes = Math.floor(
-      (diff % 3600000) / 60000
-    );
-
-    const seconds = Math.floor(
-      (diff % 60000) / 1000
-    );
-
-    daysEl.textContent = String(days).padStart(2, '0');
-    hoursEl.textContent = String(hours).padStart(2, '0');
-    minsEl.textContent = String(minutes).padStart(2, '0');
-    secsEl.textContent = String(seconds).padStart(2, '0');
+  // Countdown isn't on the current page
+  if (!daysEl || !hoursEl || !minsEl || !secsEl) {
+    return;
   }
 
-  // Run immediately
-  tick();
+  // Wedding date has arrived
+  if (diff <= 0) {
+    daysEl.textContent = '00';
+    hoursEl.textContent = '00';
+    minsEl.textContent = '00';
+    secsEl.textContent = '00';
+    return;
+  }
 
-  // Update every second
-  setInterval(tick, 1000);
+  const days = Math.floor(diff / 86400000);
 
-})();
+  const hours = Math.floor(
+    (diff % 86400000) / 3600000
+  );
+
+  const minutes = Math.floor(
+    (diff % 3600000) / 60000
+  );
+
+  const seconds = Math.floor(
+    (diff % 60000) / 1000
+  );
+
+  daysEl.textContent = String(days).padStart(2, '0');
+  hoursEl.textContent = String(hours).padStart(2, '0');
+  minsEl.textContent = String(minutes).padStart(2, '0');
+  secsEl.textContent = String(seconds).padStart(2, '0');
+}
+
+
+// Run immediately
+tick();
+
+
+// Update every second
+setInterval(tick, 1000);
 
 
 // ── Guest counter ─────────────────────────────────────────
