@@ -28,29 +28,62 @@ function saveGuests(list) {
 }
 
 // ── Countdown ─────────────────────────────────────────────
-function tick() {
-  const target = new Date('2026-10-10T17:00:00');
-  const diff = target - new Date();
-  const pad = n => String(Math.max(0, n)).padStart(2, '0');
+// ── Luxury Wedding Countdown ─────────────────────────────
+(function () {
 
-  if (diff <= 0) {
-    ['days', 'hours', 'mins', 'secs'].forEach(id => {
-      const el = document.getElementById('cd-' + id);
-      if (el) el.textContent = '00';
-    });
-    return;
+  const target = new Date('2026-10-10T17:00:00').getTime();
+
+  function tick() {
+
+    const now = Date.now();
+    const diff = target - now;
+
+    const daysEl = document.getElementById('cd-days');
+    const hoursEl = document.getElementById('cd-hours');
+    const minsEl = document.getElementById('cd-mins');
+    const secsEl = document.getElementById('cd-secs');
+
+    // Make sure the countdown exists before continuing
+    if (!daysEl || !hoursEl || !minsEl || !secsEl) {
+      return;
+    }
+
+    if (diff <= 0) {
+      daysEl.textContent = '00';
+      hoursEl.textContent = '00';
+      minsEl.textContent = '00';
+      secsEl.textContent = '00';
+      return;
+    }
+
+    const days = Math.floor(diff / 86400000);
+
+    const hours = Math.floor(
+      (diff % 86400000) / 3600000
+    );
+
+    const minutes = Math.floor(
+      (diff % 3600000) / 60000
+    );
+
+    const seconds = Math.floor(
+      (diff % 60000) / 1000
+    );
+
+    daysEl.textContent = String(days).padStart(2, '0');
+    hoursEl.textContent = String(hours).padStart(2, '0');
+    minsEl.textContent = String(minutes).padStart(2, '0');
+    secsEl.textContent = String(seconds).padStart(2, '0');
   }
 
-  const d = Math.floor(diff / 86400000);
-  const h = Math.floor((diff % 86400000) / 3600000);
-  const m = Math.floor((diff % 3600000) / 60000);
-  const s = Math.floor((diff % 60000) / 1000);
+  // Run immediately
+  tick();
 
-  ['days', 'hours', 'mins', 'secs'].forEach((id, i) => {
-    const el = document.getElementById('cd-' + id);
-    if (el) el.textContent = pad([d, h, m, s][i]);
-  });
-}
+  // Update every second
+  setInterval(tick, 1000);
+
+})();
+
 
 // ── Guest counter ─────────────────────────────────────────
 function refreshCounter() {
