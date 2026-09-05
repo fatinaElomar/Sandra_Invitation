@@ -440,7 +440,7 @@ function showSuccessPanel(data) {
 
   msg.textContent = !isAttending
     ? "We're sorry you can't make it. Thank you for letting us know — we'll miss you!"
-    : "Your RSVP has been received! We can't wait to celebrate with you on October 10th! 🎉";
+    : "Your RSVP has been received! We can't wait to celebrate with you on October 20th! 🎉";
 
   success.style.display = 'block';
   success.scrollIntoView({ behavior: 'smooth', block: 'center' });
