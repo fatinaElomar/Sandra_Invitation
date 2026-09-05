@@ -995,7 +995,7 @@ function initEnvelopeIntro() {
 
   // Ambient floating gold dust inside the intro screen
   if (sparkleFd) {
-    const chars = ['✦', '✨', '•', '⋆', '♥'];
+    const chars = ['✦', '❊', '•', '⋆', '❤'];
     for (let i = 0; i < 24; i++) {
       const sp = document.createElement('span');
       sp.textContent = chars[Math.floor(Math.random() * chars.length)];
