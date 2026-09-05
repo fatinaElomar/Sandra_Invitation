@@ -446,7 +446,7 @@ a:hover {
   object-fit: contain;
   position: relative;
   z-index: 2;
-  border-radius:7px;
+  border-radius: 7px;
   animation: sealFloat 5s ease-in-out infinite alternate;
 }
 
@@ -1674,6 +1674,7 @@ a:hover {
 }
 
 .inv-cta {
+  margin: 34px 0;
   padding: 13px 38px;
   border-radius: 999px;
   font-family: var(--f-caps);
