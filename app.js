@@ -32,8 +32,8 @@ function saveGuests(list) {
 // LUXURY WEDDING COUNTDOWN
 function tick() {
 
-  // Wedding date: October 20, 2026 at 5:00 PM
-  const target = new Date('2026-10-20T17:00:00').getTime();
+  // Wedding date: October 10, 2026 at 5:00 PM
+  const target = new Date('2026-10-10T17:00:00').getTime();
   const now = Date.now();
   const diff = target - now;
 
